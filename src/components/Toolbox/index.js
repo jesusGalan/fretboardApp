@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import './index.css';
 
 class Toolbox extends Component {
+  constructor() {
+    super();
+    this.state = {
+      valueFromId: Math.random(),
+      valueToId: Math.random(),
+    }
+  }
+
   render() {
     return (
       <div className="Toolbox">
@@ -56,17 +64,17 @@ class Toolbox extends Component {
               <div className="tools-inside-bottom-wrapper">
 
                 <div className="tool-erase-from-wrapper">
-                  <button onClick={() => this.props.removeFrets(document.getElementById('input-remove-from').value, document.getElementById('input-remove-to').value)}>Erase from:</button>
+                  <button onClick={() => this.props.removeFrets(document.getElementById(this.state.valueFromId).value, document.getElementById(this.state.valueToId).value)}>Erase from:</button>
                 </div>
 
                 <div className="colour-fromto-wrapper">
 
                   <div className="tool-from-wrapper">
-                    <input id="input-remove-from" type="number" min="0" max="11" placeholder="From..."/>
+                    <input id={this.state.valueFromId} type="number" min="0" max="11" placeholder="From..."/>
                   </div>
 
                   <div className="tool-to-wrapper">
-                    <input id="input-remove-to" type="number" min="0" max="11" placeholder="to..."/>
+                    <input id={this.state.valueToId} type="number" min="0" max="11" placeholder="to..."/>
                   </div>
 
                 </div>
