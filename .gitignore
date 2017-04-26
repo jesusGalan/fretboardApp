@@ -39,3 +39,4 @@ jspm_packages
 # Sass compiled files
 *.css.map
 *.css
+.sass-cache
