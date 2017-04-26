@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Fret from './containers/Fret'
+import Board from './containers/Board'
 
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-          <Fret showNotes="G4 A4 B3 D3 E2 G2"/>
-          <Fret></Fret>
+        <Board showNotes="C1 C2"></Board>
       </div>
     );
   }

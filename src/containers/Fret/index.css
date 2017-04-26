@@ -60,18 +60,9 @@ div .t11 {
   -webkit-border-radius: 50%;
   border-radius: 50%; }
 
-.fret-wrapper {
+.Fret {
   display: flex;
   flex-flow: column;
   width: 600px; }
-
-.Fret {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-flow: row;
-  -webkit-flex-flow: row; }
 
 /*# sourceMappingURL=index.css.map */
