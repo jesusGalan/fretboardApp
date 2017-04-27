@@ -6,51 +6,51 @@ class Fifthstring extends Component {
     return (
       <div className="Fifthstring">
 
-        <div className="aire t0" onClick={() => this.props.setNote('A5')}>
+        <div className="aire t0" onDoubleClick={() => this.props.setNote('A5')}>
           {this.drawNote('A')}
         </div>
 
-        <div className="traste t1" onClick={() => this.props.setNote('A#5')}>
+        <div className="traste t1" onDoubleClick={() => this.props.setNote('A#5')}>
           {this.drawNote('A#')}
         </div>
 
-        <div className="traste t2" onClick={() => this.props.setNote('B5')}>
+        <div className="traste t2" onDoubleClick={() => this.props.setNote('B5')}>
           {this.drawNote('B')}
         </div>
 
-        <div className="traste t3" onClick={() => this.props.setNote('C5')}>
+        <div className="traste t3" onDoubleClick={() => this.props.setNote('C5')}>
           {this.drawNote('C')}
         </div>
 
-        <div className="traste t4" onClick={() => this.props.setNote('C#5')}>
+        <div className="traste t4" onDoubleClick={() => this.props.setNote('C#5')}>
           {this.drawNote('C#')}
         </div>
 
-        <div className="traste t5" onClick={() => this.props.setNote('D5')}>
+        <div className="traste t5" onDoubleClick={() => this.props.setNote('D5')}>
           {this.drawNote('D')}
         </div>
 
-        <div className="traste t6" onClick={() => this.props.setNote('D#5')}>
+        <div className="traste t6" onDoubleClick={() => this.props.setNote('D#5')}>
           {this.drawNote('D#')}
         </div>
 
-        <div className="traste t7" onClick={() => this.props.setNote('E5')}>
+        <div className="traste t7" onDoubleClick={() => this.props.setNote('E5')}>
           {this.drawNote('E')}
         </div>
 
-        <div className="traste t8" onClick={() => this.props.setNote('F5')}>
+        <div className="traste t8" onDoubleClick={() => this.props.setNote('F5')}>
           {this.drawNote('F')}
         </div>
 
-        <div className="traste t9" onClick={() => this.props.setNote('F#5')}>
+        <div className="traste t9" onDoubleClick={() => this.props.setNote('F#5')}>
           {this.drawNote('F#')}
         </div>
 
-        <div className="traste t10" onClick={() => this.props.setNote('G5')}>
+        <div className="traste t10" onDoubleClick={() => this.props.setNote('G5')}>
           {this.drawNote('G')}
         </div>
 
-        <div className="traste t11" onClick={() => this.props.setNote('G#5')}>
+        <div className="traste t11" onDoubleClick={() => this.props.setNote('G#5')}>
           {this.drawNote('G#')}
         </div>
 

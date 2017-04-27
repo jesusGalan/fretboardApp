@@ -9,30 +9,28 @@ class Board extends Component {
   constructor() {
     super();
     this.state = {
-      settedNotes: ""
+      colourSet: ['#123412', '#432411']
     }
 
-    this.setDataNote = this.setDataNote.bind(this);
-    this.unsetNote = this.unsetNote.bind(this);
-    this.setAll = this.setAll.bind(this);
-    this.setInversions = this.setInversions.bind(this);
-    this.unsetAllNotes = this.unsetAllNotes.bind(this);
-    this.removeStringNotes = this.removeStringNotes.bind(this);
     this.removeFrom = this.removeFrom.bind(this);
+    this.colourExistingNotes = this.colourExistingNotes.bind(this);
   }
   render() {
     return (
       <div className="Board">
 
-        <Fret settedNotes={this.state.settedNotes}
-              setDataNote={this.setDataNote}
-              removeNote={this.unsetNote}/>
+        <Fret settedNotes={this.props.settedNotes}
+              setDataNote={this.props.setNote}
+              removeNote={this.props.unsetNote}
+              colorSet={this.state.colourSet}/>
 
-        <Toolbox setAllNotes={this.setAll}
-                 restartBoard={this.unsetAllNotes}
-                 invertNotes={this.setInversions}
-                 removeStringNote={this.removeStringNotes}
-                 removeFrets={this.removeFrom}></Toolbox>
+            <Toolbox setAllNotes={this.props.setAllNotes}
+                 restartBoard={this.props.unsetAllNotes}
+                 invertNotes={this.props.setInversions}
+                 removeStringNote={this.props.removeStringNotes}
+                 removeFrets={this.props.removeFretsFrom}
+                 colourNotes={this.colourExistingNotes}
+                 eraseBoard={this.props.removeThisBoard}></Toolbox>
 
       </div>
     );
@@ -40,83 +38,6 @@ class Board extends Component {
 
   componentDidMount() {
     this.setState({...this.state, settedNotes: this.props.showNotes + ' '});
-  }
-
-  setDataNote(note) {
-    if (this.state.settedNotes.includes(note) !== true){
-      this.setState({...this.state, settedNotes: (this.state.settedNotes + ' ' + note + ' ').replace('  ', ' ')});
-    }
-    console.log(this.state.settedNotes);
-  }
-
-  unsetNote(note) {
-    this.setState({...this.state, settedNotes: this.state.settedNotes.replace(note + ' ', '')});
-  }
-
-  setAll() {
-    this.setState({settedNotes: 'E1 F1 F#1 G1 G#1 A1 A#1 B1 C1 C#1 D1 D#1 ' +
-                                'B2 C2 C#2 D2 D#2 E2 F2 F#2 G2 G#2 A2 A#2 ' +
-                                'G3 G#3 A3 A#3 B3 C3 C#3 D3 D#3 E3 F3 F#3 ' +
-                                'D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C4 C#4 ' +
-                                'A5 A#5 B5 C5 C#5 D5 D#5 E5 F5 F#5 G5 G#5 ' +
-                                'E6 F6 F#6 G6 G#6 A6 A#6 B6 C6 C#6 D6 D#6 '});
-  }
-
-  setInversions() {
-    var notesToInvert = ''
-
-    for (var x = 0; x < this.state.settedNotes.split(' ').length; x++) {
-
-      if (this.state.settedNotes.split(' ')[x] !== '') {
-
-        if (this.state.settedNotes.split(' ')[x].includes('#')) {
-
-          if (notesToInvert.includes(this.state.settedNotes.split(' ')[x].charAt(0) +
-              this.state.settedNotes.split(' ')[x].charAt(1)) !== true) {
-                notesToInvert += this.state.settedNotes.split(' ')[x].charAt(0) +
-                                 this.state.settedNotes.split(' ')[x].charAt(1) + ' ';
-              }
-        }
-
-        else {
-
-          if (notesToInvert.includes(this.state.settedNotes.split(' ')[x].charAt(0) + ' ') !== true){
-            notesToInvert += this.state.settedNotes.split(' ')[x].charAt(0) + ' ';
-          }
-        }
-      }
-    }
-
-    var inversions = '';
-
-    for (var i = 0; i < notesToInvert.split(' ').length; i++) {
-
-      if (notesToInvert.split(' ')[i] !== '') {
-        for (var j = 1; j <= 6; j++) {
-          inversions += notesToInvert.split(' ')[i].toString() + j.toString() + " ";
-        }
-      }
-
-    }
-
-    this.setState({settedNotes: inversions});
-
-  }
-
-  unsetAllNotes() {
-    this.setState({settedNotes: ''});
-  }
-
-  removeStringNotes(string) {
-    var notesThatWontBeRemoved = ''
-    for (var x = 0; x < this.state.settedNotes.split(' ').length; x++){
-      if (this.state.settedNotes.split(' ')[x] !== '') {
-        if (this.state.settedNotes.split(' ')[x].includes(string.toString()) !== true) {
-          notesThatWontBeRemoved += this.state.settedNotes.split(' ')[x] + ' ';
-        }
-      }
-    }
-    this.setState({settedNotes: notesThatWontBeRemoved});
   }
 
   removeFrom(valueFrom, valueTo) {
@@ -162,6 +83,11 @@ class Board extends Component {
     }
 
     this.setState({settedNotes: cleanState});
+  }
+
+  colourExistingNotes(id) {
+    console.log('hola');
+    document.getElementById(id).style.backgroundColor = this.state.colourSet[0];
   }
 }
 

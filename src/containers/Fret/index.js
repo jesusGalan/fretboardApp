@@ -11,7 +11,6 @@ import Sixthstring from '../../components/Sixthstring'
 
 
 class Fret extends Component {
-
   render() {
     return (
       <div className="Fret">
@@ -20,7 +19,8 @@ class Fret extends Component {
 
         <Firststring data={this.props.settedNotes}
                      setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}/>
+                     removeNote={this.props.removeNote}
+                     colorSet={this.props.colorSet}/>
 
         <Secondstring data={this.props.settedNotes}
                       setNote={this.props.setDataNote}

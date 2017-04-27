@@ -53,12 +53,13 @@ class Toolbox extends Component {
               <div className="tool-draw-all" onClick={this.props.setAllNotes}><button>Draw all</button></div>
               <div className="tool-invert" onClick={this.props.invertNotes}><button>Invert</button></div>
               <div className="tool-restart" onClick={this.props.restartBoard}><button>Restart</button></div>
+              <div className="tool-restart" onClick={this.props.eraseBoard}><button>Erase Board</button></div>
             </div>
 
             <div className="tools-inside-aside-wrapper">
 
               <div className="tool-colour">
-                <button>Colour correlative</button>
+                <button onClick={this.props.colourNotes}>Colour correlative</button>
               </div>
 
               <div className="tools-inside-bottom-wrapper">
