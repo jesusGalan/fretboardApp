@@ -12,7 +12,6 @@ class Board extends Component {
       colourSet: ['#123412', '#432411']
     }
 
-    this.removeFrom = this.removeFrom.bind(this);
     this.colourExistingNotes = this.colourExistingNotes.bind(this);
   }
   render() {

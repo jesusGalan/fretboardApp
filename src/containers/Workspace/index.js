@@ -10,18 +10,28 @@ class Workspace extends Component {
     this.state = {
       boardInfo: []
     }
+
+    /*showstate is a function for see states and ease debug*/
     this.showState = this.showState.bind(this);
-
+    /*addBoard cand add independent workspaces to be rendered*/
     this.addBoard = this.addBoard.bind(this);
+    /*renderBoard do the job of render into html document*/
     this.renderBoard = this.renderBoard.bind(this);
+    /*removeBoardById can remove a specific board with a unique id*/
     this.removeBoardById = this.removeBoardById.bind(this);
+    /*removeStringNotes can remove all notes of a unique string*/
     this.removeStringNotes = this.removeStringNotes.bind(this);
+    /*removeFretsFrom cand remove notes that live in a range of frets*/
     this.removeFretsFrom = this.removeFretsFrom.bind(this);
-
+    /*setNote can set a note in a state that will be rendered*/
     this.setNote = this.setNote.bind(this);
+    /*setAllNotes can set all notes in a state that is going to be renderer*/
     this.setAllNotes = this.setAllNotes.bind(this);
+    /*unsetNote can remove a note that was been added previously*/
     this.unsetNote = this.unsetNote.bind(this);
+    /*unsetAllNotes can remove all notes of a unique board*/
     this.unsetAllNotes = this.unsetAllNotes.bind(this);
+    /*setInversions can see the notes added and add all of that notes in the board*/
     this.setInversions = this.setInversions.bind(this);
   }
 
@@ -45,7 +55,8 @@ class Workspace extends Component {
       boardInfo: [
         ...this.state.boardInfo,
         {id: Math.random().toString(),
-         settedNotes: ""}
+         settedNotes: "",
+        }
       ]
     })
   }
@@ -98,12 +109,8 @@ class Workspace extends Component {
         }
         x++;
       }
-
       this.setState({...this.state, boardInfo: newBoardInfoState})
     }
-
-
-
 
     console.log('This board have been edit: ', boardToEdit)
   }
