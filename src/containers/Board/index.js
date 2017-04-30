@@ -28,7 +28,9 @@ class Board extends Component {
                  removeStringNote={this.props.removeStringNotes}
                  removeFrets={this.props.removeFretsFrom}
                  giveColor={this.props.giveColor}
-                 eraseBoard={this.props.removeThisBoard}></Toolbox>
+                 eraseBoard={this.props.removeThisBoard}
+                 moveColorsToLeft={this.props.moveColorsToLeft}
+                 moveColorsToRight={this.props.moveColorsToRight}></Toolbox>
 
       </div>
     );

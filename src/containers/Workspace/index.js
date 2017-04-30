@@ -33,6 +33,8 @@ class Workspace extends Component {
     this.setInversions = this.setInversions.bind(this);
     /*colourNotesSet set all array with color if the notes is shown in board */
     this.colourNotesSet = this.colourNotesSet.bind(this);
+    this.moveColorsToLeft = this.moveColorsToLeft.bind(this);
+    this.moveColorsToRight = this.moveColorsToRight.bind(this);
   }
 
   render() {
@@ -77,9 +79,127 @@ class Workspace extends Component {
                removeFretsFrom={this.removeFretsFrom.bind(this, info.id, boardPosition)}
                giveColor={this.colourNotesSet.bind(this, info.id, boardPosition)}
                noteColor={this.state.boardInfo[boardPosition].noteColor}
+               moveColorsToLeft={this.moveColorsToLeft.bind(this, info.id, boardPosition)}
+               moveColorsToRight={this.moveColorsToRight.bind(this, info.id, boardPosition)}
                />
       </div>
     )
+  }
+
+  moveColorsToLeft(id, position, string) {
+    let boardToEdit = this.state.boardInfo.find(
+      (board) => {
+        return board.id === id
+      }
+    )
+    
+    let stringsCorrespondencies = {
+        '1': 'firststring',
+        '2': 'secondstring',
+        '3': 'thirdstring',
+        '4': 'fourthstring',
+        '5': 'fifthstring',
+        '6': 'sixthstring'
+    }
+    
+    let stringNotes = stringsCorrespondencies[string]
+    let colors = boardToEdit.noteColor[stringNotes]
+    let positionsOfColors = []
+    let colorsToBeSplice = []
+
+    for (var x = 0; x < colors.length; x++) {
+      if (colors[x] !== '') {
+        colorsToBeSplice.push(colors[x])
+        positionsOfColors.push(x)
+      }
+    }
+
+    let colorsFlipped = colorsToBeSplice.splice(1, colorsToBeSplice.length)
+    colorsFlipped.push(colorsToBeSplice[0])
+    let goodColorSet = []
+    let count = 0
+
+    for (var v = 0; v < colors.length; v++) {
+      for (var j = 0; j < positionsOfColors.length; j++) {
+        if (positionsOfColors[j] === v){
+          goodColorSet.push(colorsFlipped[j])
+          count += 1
+        }
+      }
+      if (count === v) {
+        goodColorSet.push('')
+        count += 1
+      }
+    }
+
+    console.log(goodColorSet)
+    
+    boardToEdit.noteColor[stringNotes] = goodColorSet
+
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+    
+    this.setState({...this.state, boardInfo: newBoardInfoState})
+  }
+
+  moveColorsToRight(id, position, string) {
+    let boardToEdit = this.state.boardInfo.find(
+      (board) => {
+        return board.id === id
+      }
+    );
+    
+    let stringsCorrespondencies = {
+        '1': 'firststring',
+        '2': 'secondstring',
+        '3': 'thirdstring',
+        '4': 'fourthstring',
+        '5': 'fifthstring',
+        '6': 'sixthstring'
+    }
+
+    let stringNotes = stringsCorrespondencies[string]
+    
+    let colors = boardToEdit.noteColor[stringNotes]
+    let positionsOfColors = []
+    let colorsToBeSplice = []
+
+    for (var x = 0; x < colors.length; x++) {
+      if (colors[x] !== '') {
+        colorsToBeSplice.push(colors[x])
+        positionsOfColors.push(x)
+      }
+    }
+
+    let colorsFlipped = [
+      colorsToBeSplice[colorsToBeSplice.length - 1],
+      ...colorsToBeSplice.splice(0, colorsToBeSplice.length - 1)
+    ]
+
+    let goodColorSet = []
+    let count = 0
+
+    for (var v = 0; v < colors.length; v++) {
+      for (var j = 0; j < positionsOfColors.length; j++) {
+        if (positionsOfColors[j] === v){
+          goodColorSet.push(colorsFlipped[j])
+          count += 1
+        }
+      }
+      if (count === v) {
+        goodColorSet.push('')
+        count += 1
+      }
+    }
+
+    let notesColor = [
+        boardToEdit.noteColor[stringNotes][11],
+        ...boardToEdit.noteColor[stringNotes].splice(0, 11)
+    ]
+    boardToEdit.noteColor[stringNotes] = goodColorSet
+
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+
+    this.setState({...this.state, boardInfo: newBoardInfoState})
   }
 
   colourNotesSet(id, position) {
@@ -397,9 +517,6 @@ class Workspace extends Component {
   }
 
   setInversions(id, position) {
-    console.log(position, 'position');
-    console.log(id, 'id');
-
     var notesToInvert = this.getScaleNotes(position);
     var inversions = '';
 
@@ -448,7 +565,6 @@ class Workspace extends Component {
   }
 
   removeStringNotes(id, position, string) {
-    console.log(position, string, id);
     var notesThatWontBeRemoved = ''
     for (var x = 0; x < this.state.boardInfo[position].settedNotes.split(' ').length; x++){
       if (this.state.boardInfo[position].settedNotes.split(' ')[x] !== '') {
@@ -549,7 +665,6 @@ class Workspace extends Component {
 
       for(var v = 0; v < notesToRemove.split(' ').length; v++) {
         if (notesToRemove.split(' ')[v].slice(-1) === '1') {
-          console.log(notesToRemove)
           boardToEdit.noteColor.firststring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.firststring, boardToEdit.noteColor.firststring);
         }
         if (notesToRemove.split(' ')[v].slice(-1) === '2') {

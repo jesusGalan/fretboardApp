@@ -15,21 +15,21 @@ class Toolbox extends Component {
       <div className="Toolbox">
 
         <div className="tools-left-wrapper">
-          <button className="fa fa-arrow-left" aria-hidden="true"></button>
-          <button className="fa fa-arrow-left" aria-hidden="true"></button>
-          <button className="fa fa-arrow-left" aria-hidden="true"></button>
-          <button className="fa fa-arrow-left" aria-hidden="true"></button>
-          <button className="fa fa-arrow-left" aria-hidden="true"></button>
-          <button className="fa fa-arrow-left" aria-hidden="true"></button>
+          <button className="fa fa-arrow-left" onClick={() => this.props.moveColorsToLeft('1')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-left" onClick={() => this.props.moveColorsToLeft('2')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-left" onClick={() => this.props.moveColorsToLeft('3')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-left" onClick={() => this.props.moveColorsToLeft('4')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-left" onClick={() => this.props.moveColorsToLeft('5')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-left" onClick={() => this.props.moveColorsToLeft('6')} aria-hidden="true"></button>
         </div>
 
         <div className="tools-left-wrapper">
-          <button className="fa fa-arrow-right" aria-hidden="true"></button>
-          <button className="fa fa-arrow-right" aria-hidden="true"></button>
-          <button className="fa fa-arrow-right" aria-hidden="true"></button>
-          <button className="fa fa-arrow-right" aria-hidden="true"></button>
-          <button className="fa fa-arrow-right" aria-hidden="true"></button>
-          <button className="fa fa-arrow-right" aria-hidden="true"></button>
+          <button className="fa fa-arrow-right" onClick={() => this.props.moveColorsToRight('1')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-right" onClick={() => this.props.moveColorsToRight('2')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-right" onClick={() => this.props.moveColorsToRight('3')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-right" onClick={() => this.props.moveColorsToRight('4')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-right" onClick={() => this.props.moveColorsToRight('5')} aria-hidden="true"></button>
+          <button className="fa fa-arrow-right" onClick={() => this.props.moveColorsToRight('6')} aria-hidden="true"></button>
         </div>
 
         <div className="tools-left-wrapper">
