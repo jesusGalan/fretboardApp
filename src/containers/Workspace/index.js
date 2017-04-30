@@ -41,7 +41,6 @@ class Workspace extends Component {
     return (
       <div className="Workspace">
         <button onClick={() => this.addBoard()}>add board</button>
-        {<button onClick={this.showState}>show me the state</button>}
         {this.state.boardInfo.map(this.renderBoard)}
       </div>
     );
