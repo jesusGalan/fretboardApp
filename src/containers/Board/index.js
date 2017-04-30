@@ -12,7 +12,6 @@ class Board extends Component {
       colourSet: ['#123412', '#432411']
     }
 
-    this.colourExistingNotes = this.colourExistingNotes.bind(this);
   }
   render() {
     return (
@@ -21,14 +20,14 @@ class Board extends Component {
         <Fret settedNotes={this.props.settedNotes}
               setDataNote={this.props.setNote}
               removeNote={this.props.unsetNote}
-              colorSet={this.state.colourSet}/>
+              noteColor={this.props.noteColor}/>
 
             <Toolbox setAllNotes={this.props.setAllNotes}
                  restartBoard={this.props.unsetAllNotes}
                  invertNotes={this.props.setInversions}
                  removeStringNote={this.props.removeStringNotes}
                  removeFrets={this.props.removeFretsFrom}
-                 colourNotes={this.colourExistingNotes}
+                 giveColor={this.props.giveColor}
                  eraseBoard={this.props.removeThisBoard}></Toolbox>
 
       </div>

@@ -59,7 +59,7 @@ class Toolbox extends Component {
             <div className="tools-inside-aside-wrapper">
 
               <div className="tool-colour">
-                <button onClick={this.props.colourNotes}>Colour correlative</button>
+                <button onClick={this.props.giveColor}>Colour correlative</button>
               </div>
 
               <div className="tools-inside-bottom-wrapper">

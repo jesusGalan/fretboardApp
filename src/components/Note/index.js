@@ -5,7 +5,7 @@ class Note extends Component {
   render() {
     return (
       <div className="Note">
-        {this.drawNote('E')}
+        {this.drawNote(this.props.noteName)}
       </div>
     );
   }
@@ -15,13 +15,13 @@ class Note extends Component {
       return (
         <div className="button-wrapper">
           <button
-            id="1-E1"
+            style={{backgroundColor: this.props.noteColor}}
+            id={this.props.numberOfString + note}
             className="note-button"
-            onClick={() => this.props.removeNote(note + '1')}>
+            onClick={() => this.props.removeNote(note + this.props.numberOfString)}>
                 {note}
           </button>
         </div>
-
       )
     }
   }

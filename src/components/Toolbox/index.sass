@@ -9,13 +9,17 @@
   //this Width prevent for resizing when display is coming smaller
   width: 1px
 
+  button
+    flex: 1
+    +avoidSelection()
+
+  input
+    +avoidSelection()
+
 .tools-left-wrapper
   flex: 1
   +display-flex
   +flex-flow(column)
-
-  button
-    height: 40px
 
 .tools-right-wrapper
 
@@ -26,6 +30,9 @@
   .title-wrapper
     flex: 1
     width: 200px
+
+    h1
+      +avoidSelection()
 
   .tools-inside-wrapper
     flex: 2
@@ -42,32 +49,20 @@
         +flex-flow(column)
         flex: 1
 
-        button
-          flex: 1
-
       .tool-invert
         +display-flex
         +flex-flow(column)
         flex: 1
-
-        button
-          flex: 1
 
       .tool-restart
         +display-flex
         +flex-flow(column)
         flex: 1
 
-        button
-          flex: 1
-
       .tool-colour
         +display-flex
         +flex-flow(column)
         flex: 1
-
-        button
-          flex: 1
 
       .tools-inside-bottom-wrapper
         +display-flex
@@ -78,9 +73,6 @@
           +display-flex
           +flex-flow(column)
           flex: 1
-
-          button
-            flex: 1
 
         .colour-fromto-wrapper
           flex: 1

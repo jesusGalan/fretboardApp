@@ -20,27 +20,32 @@ class Fret extends Component {
         <Firststring data={this.props.settedNotes}
                      setNote={this.props.setDataNote}
                      removeNote={this.props.removeNote}
-                     colorSet={this.props.colorSet}/>
+                     noteColor={this.props.noteColor.firststring}/>
 
         <Secondstring data={this.props.settedNotes}
                       setNote={this.props.setDataNote}
-                      removeNote={this.props.removeNote}/>
+                      removeNote={this.props.removeNote}
+                      noteColor={this.props.noteColor.secondstring}/>
 
         <Thirdstring data={this.props.settedNotes}
                      setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}/>
+                     removeNote={this.props.removeNote}
+                     noteColor={this.props.noteColor.thirdstring}/>
 
         <Fourthstring data={this.props.settedNotes}
                       setNote={this.props.setDataNote}
-                      removeNote={this.props.removeNote}/>
+                      removeNote={this.props.removeNote}
+                      noteColor={this.props.noteColor.fourthstring}/>
 
         <Fifthstring data={this.props.settedNotes}
                      setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}/>
+                     removeNote={this.props.removeNote}
+                     noteColor={this.props.noteColor.fifthstring}/>
 
         <Sixthstring data={this.props.settedNotes}
                      setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}/>
+                     removeNote={this.props.removeNote}
+                     noteColor={this.props.noteColor.sixthstring}/>
 
       </div>
     );
