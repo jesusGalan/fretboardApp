@@ -190,10 +190,6 @@ class Workspace extends Component {
       }
     }
 
-    let notesColor = [
-        boardToEdit.noteColor[stringNotes][11],
-        ...boardToEdit.noteColor[stringNotes].splice(0, 11)
-    ]
     boardToEdit.noteColor[stringNotes] = goodColorSet
 
     let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
