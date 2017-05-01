@@ -407,7 +407,7 @@ class Workspace extends Component {
     let stringsCorrespondencies = this.getTheStringCorrespondencies()
     let sortedNotes = this.getTheSortedNotesOfAllStrings();
     boardToEdit.settedNotes = (boardToEdit.settedNotes).replace(note + ' ', '');
-    boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.unsetColorInArray(note, sortedNotes[note.slice(-1)], boardToEdit.noteColor.firststring);
+    boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.unsetColorInArray(note, sortedNotes[note.slice(-1)], boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]]);
     let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);;
 
     this.setState({...this.state, boardInfo: newBoardInfoState})
