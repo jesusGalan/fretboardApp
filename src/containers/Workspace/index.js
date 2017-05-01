@@ -131,13 +131,21 @@ class Workspace extends Component {
       }
     }
 
-    console.log(goodColorSet)
-    
     boardToEdit.noteColor[stringNotes] = goodColorSet
-
     let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
     
     this.setState({...this.state, boardInfo: newBoardInfoState})
+  }
+
+  getTheStringCorrespondencies() {
+    return {
+        '1': 'firststring',
+        '2': 'secondstring',
+        '3': 'thirdstring',
+        '4': 'fourthstring',
+        '5': 'fifthstring',
+        '6': 'sixthstring'
+    }
   }
 
   moveColorsToRight(id, position, string) {
@@ -147,14 +155,7 @@ class Workspace extends Component {
       }
     );
     
-    let stringsCorrespondencies = {
-        '1': 'firststring',
-        '2': 'secondstring',
-        '3': 'thirdstring',
-        '4': 'fourthstring',
-        '5': 'fifthstring',
-        '6': 'sixthstring'
-    }
+    let stringsCorrespondencies = this.getTheStringCorrespondencies()
 
     let stringNotes = stringsCorrespondencies[string]
     
@@ -198,80 +199,61 @@ class Workspace extends Component {
   }
 
   colourNotesSet(id, position) {
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
     )[0];
 
-    var sortedNotesByString = this.getTheSortedNotesOfAllStrings();
+    let sortedNotesByString = this.getTheSortedNotesOfAllStrings();
+    let stringsCorrespondencies = this.getTheStringCorrespondencies();
 
-    let notesFirstString = this.getSortedNotes(boardToEdit.settedNotes, '1');
-    let notesSecondString = this.getSortedNotes(boardToEdit.settedNotes, '2');
-    let notesThirdString = this.getSortedNotes(boardToEdit.settedNotes, '3');
-    let notesFourthString = this.getSortedNotes(boardToEdit.settedNotes, '4');
-    let notesFifthString = this.getSortedNotes(boardToEdit.settedNotes, '5');
-    let notesSixthString = this.getSortedNotes(boardToEdit.settedNotes, '6');
+    let notesActiveByString
+    
+    for (var x = 1; x <= 6; x++) {
+      notesActiveByString = this.getSortedNotes(boardToEdit.settedNotes, x);
+      boardToEdit.noteColor[stringsCorrespondencies[x]] = this.setColorsInArrayByString(notesActiveByString, sortedNotesByString[x], x)
+    }
 
-    boardToEdit.noteColor.firststring = this.setColorsInArrayByString(notesFirstString, sortedNotesByString.firststring, '1')
-    boardToEdit.noteColor.secondstring = this.setColorsInArrayByString(notesSecondString, sortedNotesByString.secondstring, '2')
-    boardToEdit.noteColor.thirdstring = this.setColorsInArrayByString(notesThirdString, sortedNotesByString.thirdstring, '3')
-    boardToEdit.noteColor.fourthstring = this.setColorsInArrayByString(notesFourthString, sortedNotesByString.fourthstring, '4')
-    boardToEdit.noteColor.fifthstring = this.setColorsInArrayByString(notesFifthString, sortedNotesByString.fifthstring, '5')
-    boardToEdit.noteColor.sixthstring = this.setColorsInArrayByString(notesSixthString, sortedNotesByString.firststring, '6')
-
-    var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
 
     this.setState({...this.state, boardInfo: newBoardInfoState})
   }
 
   setColorsInArrayByString(notesActive, sortedNotes, string) {
     
-    var setOfColorsFirstString = ['#ff9933', '#64c5af', '#d6a87c',
-                                  '#00d27f', '#cd8c95', '#ffcc33',
-                                  '#66ff33', '#ff66ff', '#0099ff',
-                                  '#ff6633', '#9966cc', '#ff6666']
+    var setOfColors = {'1': ['#ff9933', '#64c5af', '#d6a87c',
+                             '#00d27f', '#cd8c95', '#ffcc33',
+                             '#66ff33', '#ff66ff', '#0099ff',
+                             '#ff6633', '#9966cc', '#ff6666'],
 
-    var setOfColorsSecondString = ['#ff66ff', '#0099ff', '#ff6633',
-                                   '#9966cc', '#ff6666', '#ff9933',
-                                   '#64c5af', '#d6a87c', '#00d27f',
-                                   '#cd8c95', '#ffcc33', '#66ff33']
+                       '2': ['#ff66ff', '#0099ff', '#ff6633',
+                             '#9966cc', '#ff6666', '#ff9933',
+                             '#64c5af', '#d6a87c', '#00d27f',
+                             '#cd8c95', '#ffcc33', '#66ff33'],
 
-    var setOfColorsThirdString = ['#00d27f', '#cd8c95', '#ffcc33',
-                                  '#66ff33', '#ff66ff', '#0099ff',
-                                  '#ff6633', '#9966cc', '#ff6666',
-                                  '#ff9933', '#64c5af', '#d6a87c']
+                       '3': ['#00d27f', '#cd8c95', '#ffcc33',
+                             '#66ff33', '#ff66ff', '#0099ff',
+                             '#ff6633', '#9966cc', '#ff6666',
+                             '#ff9933', '#64c5af', '#d6a87c'],
 
-    var setOfColorsFourthString = ['#9966cc', '#ff6666', '#ff9933',
-                                   '#64c5af', '#d6a87c', '#00d27f',
-                                   '#cd8c95', '#ffcc33', '#66ff33',
-                                   '#ff66ff', '#0099ff', '#ff6633']
+                       '4': ['#9966cc', '#ff6666', '#ff9933',
+                             '#64c5af', '#d6a87c', '#00d27f',
+                             '#cd8c95', '#ffcc33', '#66ff33',
+                             '#ff66ff', '#0099ff', '#ff6633'],
 
-    var setOfColorsFifthString = ['#ffcc33', '#66ff33', '#ff66ff',
-                                  '#0099ff', '#ff6633', '#9966cc',
-                                  '#ff6666', '#ff9933', '#64c5af',
-                                  '#d6a87c', '#00d27f', '#cd8c95']
+                       '5': ['#ffcc33', '#66ff33', '#ff66ff',
+                             '#0099ff', '#ff6633', '#9966cc',
+                             '#ff6666', '#ff9933', '#64c5af',
+                             '#d6a87c', '#00d27f', '#cd8c95'],
+                       
+                       '6': ['#ff9933', '#64c5af', '#d6a87c',
+                             '#00d27f', '#cd8c95', '#ffcc33',
+                             '#66ff33', '#ff66ff', '#0099ff',
+                             '#ff6633', '#9966cc', '#ff6666']
+    }
 
-    let arrayOfResults = [];
-
-    if (string === '1') {
-      arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColorsFirstString)
-    }
-    if (string === '2') {
-      arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColorsSecondString)
-    }
-    if (string === '3') {
-      arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColorsThirdString)
-    }
-    if (string === '4') {
-      arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColorsFourthString)
-    }
-    if (string === '5') {
-      arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColorsFifthString)
-    }
-    if (string === '6') {
-      arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColorsFirstString)
-    }
+    let arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColors[string])
 
     return arrayOfResults
   }
@@ -279,6 +261,8 @@ class Workspace extends Component {
   setColorsInArray(activeNotes, sortedNotes, setOfColors) {
     let count = 0
     let coloredArray = []
+
+    console.log(activeNotes, sortedNotes)
     for (var x = 0; x < sortedNotes.split(' ').length; x++) {
       for (var y = 0; y < activeNotes.split(' ').length; y++) {
         if (sortedNotes.split(' ')[x] === activeNotes.split(' ')[y]) {
@@ -295,9 +279,9 @@ class Workspace extends Component {
   }
 
   unsetColorInArray(note, sortedNotes, inputArray) {
-    var arrayOfResults = [];
-    var count = 0;
-    var cleanNote = '';
+    let arrayOfResults = [];
+    let count = 0;
+    let cleanNote = '';
 
     if (note.includes('#')) {
       cleanNote = note.charAt(0) + note.charAt(1)
@@ -320,11 +304,12 @@ class Workspace extends Component {
   }
 
   getTheSortedNotesOfAllStrings() {
-    return {'firststring': 'E F F# G G# A A# B C C# D D#',
-            'secondstring': 'B C C# D D# E F F# G G# A A#',
-            'thirdstring': 'G G# A A# B C C# D D# E F F#',
-            'fourthstring': 'D D# E F F# G G# A A# B C C#',
-            'fifthstring': 'A A# B C C# D D# E F F# G G#'}
+    return {'1': 'E F F# G G# A A# B C C# D D#',
+            '2': 'B C C# D D# E F F# G G# A A#',
+            '3': 'G G# A A# B C C# D D# E F F#',
+            '4': 'D D# E F F# G G# A A# B C C#',
+            '5': 'A A# B C C# D D# E F F# G G#',
+            '6': 'E F F# G G# A A# B C C# D D#',}
   }
 
   getSortedNotes(notes, string) {
@@ -333,24 +318,8 @@ class Workspace extends Component {
     var sortedNotes = '';
     let unsortedNotes = this.getScaleNotesOnString(notes, string)
 
-    if (string === '1') {
-      sortedNotes = this.sortThisNotes(sortedNotesByString.firststring, unsortedNotes)
-    }
-    if (string === '2') {
-      sortedNotes = this.sortThisNotes(sortedNotesByString.secondstring, unsortedNotes)
-    }
-    if (string === '3') {
-      sortedNotes = this.sortThisNotes(sortedNotesByString.thirdstring, unsortedNotes)
-    }
-    if (string === '4') {
-      sortedNotes = this.sortThisNotes(sortedNotesByString.fourthstring, unsortedNotes)
-    }
-    if (string === '5') {
-      sortedNotes = this.sortThisNotes(sortedNotesByString.fifthstring, unsortedNotes)
-    }
-    if (string === '6') {
-      sortedNotes = this.sortThisNotes(sortedNotesByString.firststring, unsortedNotes)
-    }
+    sortedNotes = this.sortThisNotes(sortedNotesByString[string], unsortedNotes)
+    
 
     return sortedNotes
 
@@ -395,7 +364,7 @@ class Workspace extends Component {
   }
 
   setNote(id, position, note) {
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
@@ -404,7 +373,7 @@ class Workspace extends Component {
     if (boardToEdit.settedNotes.includes(note) !== true){
       boardToEdit.settedNotes = (boardToEdit.settedNotes + ' ' + note + ' ').replace('  ', ' ');
 
-      var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+      let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
 
       this.setState({...this.state, boardInfo: newBoardInfoState})
     }
@@ -429,35 +398,17 @@ class Workspace extends Component {
   }
 
   unsetNote(id, position, note) {
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
     )[0];
 
+    let stringsCorrespondencies = this.getTheStringCorrespondencies()
     let sortedNotes = this.getTheSortedNotesOfAllStrings();
-
     boardToEdit.settedNotes = (boardToEdit.settedNotes).replace(note + ' ', '');
-    if (note.slice(-1) === '1') {
-      boardToEdit.noteColor.firststring = this.unsetColorInArray(note, sortedNotes.firststring, boardToEdit.noteColor.firststring);
-    }
-    if (note.slice(-1) === '2') {
-      boardToEdit.noteColor.secondstring = this.unsetColorInArray(note, sortedNotes.secondstring, boardToEdit.noteColor.secondstring);
-    }
-    if (note.slice(-1) === '3') {
-      boardToEdit.noteColor.thirdstring = this.unsetColorInArray(note, sortedNotes.thirdstring, boardToEdit.noteColor.thirdstring);
-    }
-    if (note.slice(-1) === '4') {
-      boardToEdit.noteColor.fourthstring = this.unsetColorInArray(note, sortedNotes.fourthstring, boardToEdit.noteColor.fourthstring);
-    }
-    if (note.slice(-1) === '5') {
-      boardToEdit.noteColor.fifthstring = this.unsetColorInArray(note, sortedNotes.fifthstring, boardToEdit.noteColor.fifthstring);
-    }
-    if (note.slice(-1) === '6') {
-      boardToEdit.noteColor.sixthstring = this.unsetColorInArray(note, sortedNotes.firststring, boardToEdit.noteColor.sixthstring);
-    }
-
-    var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);;
+    boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.unsetColorInArray(note, sortedNotes[note.slice(-1)], boardToEdit.noteColor.firststring);
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);;
 
     this.setState({...this.state, boardInfo: newBoardInfoState})
 
@@ -465,7 +416,7 @@ class Workspace extends Component {
   }
 
   setAllNotes(id, position) {
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
@@ -478,7 +429,8 @@ class Workspace extends Component {
                               'A5 A#5 B5 C5 C#5 D5 D#5 E5 F5 F#5 G5 G#5 ' +
                               'E6 F6 F#6 G6 G#6 A6 A#6 B6 C6 C#6 D6 D#6 ';
 
-    var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+    
     this.setState({...this.state, boardInfo: newBoardInfoState})
 
     console.log('All notes drawn in board: ', boardToEdit);
@@ -525,35 +477,35 @@ class Workspace extends Component {
 
     }
 
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
     )[0];
 
     boardToEdit.settedNotes = inversions;
-    var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);;
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);;
 
     this.setState({...this.state, boardInfo: newBoardInfoState})
 
   }
 
   unsetAllNotes(id, position) {
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
     )[0];
 
+    let stringsCorrespondencies = this.getTheStringCorrespondencies()
+
     boardToEdit.settedNotes = '';
-    boardToEdit.noteColor.firststring = ['', '', '', '', '', '', '', '', '', '', '', '', ]
-    boardToEdit.noteColor.secondstring = ['', '', '', '', '', '', '', '', '', '', '', '', ]
-    boardToEdit.noteColor.thirdstring = ['', '', '', '', '', '', '', '', '', '', '', '', ]
-    boardToEdit.noteColor.fourthstring = ['', '', '', '', '', '', '', '', '', '', '', '', ]
-    boardToEdit.noteColor.fifthstring = ['', '', '', '', '', '', '', '', '', '', '', '', ]
-    boardToEdit.noteColor.sixthstring = ['', '', '', '', '', '', '', '', '', '', '', '', ]
-    
-    var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+
+    for (var x = 1; x <= 6; x++) {
+      boardToEdit.noteColor[stringsCorrespondencies[x]] = ['', '', '', '', '', '', '', '', '', '', '', '', ]
+    }
+
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
 
     this.setState({...this.state, boardInfo: newBoardInfoState})
     console.log('Board with the id ', id, 'have been restarted!')
@@ -569,33 +521,19 @@ class Workspace extends Component {
       }
     }
 
-    var boardToEdit = this.state.boardInfo.filter(
+    let boardToEdit = this.state.boardInfo.filter(
       (board) => {
         return board.id === id
       }
     )[0];
 
     boardToEdit.settedNotes = notesThatWontBeRemoved;
-    if (string === 1) {
-      boardToEdit.noteColor.firststring = ['', '', '', '', '', '', '', '', '', '', '', '']
-    }
-    if (string === 2) {
-      boardToEdit.noteColor.secondstring = ['', '', '', '', '', '', '', '', '', '', '', '']
-    }
-    if (string === 3) {
-      boardToEdit.noteColor.thirdstring = ['', '', '', '', '', '', '', '', '', '', '', '']
-    }
-    if (string === 4) {
-      boardToEdit.noteColor.fourthstring = ['', '', '', '', '', '', '', '', '', '', '', '']
-    }
-    if (string === 5) {
-      boardToEdit.noteColor.fifthstring = ['', '', '', '', '', '', '', '', '', '', '', '']
-    }
-    if (string === 6) {
-      boardToEdit.noteColor.sixthstring = ['', '', '', '', '', '', '', '', '', '', '', '']
-    }
 
-    var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+    let stringsCorrespondencies = this.getTheStringCorrespondencies()
+
+    boardToEdit.noteColor[stringsCorrespondencies[string]] = ['', '', '', '', '', '', '', '', '', '', '', '']
+
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
 
     this.setState({...this.state, boardInfo: newBoardInfoState})
   }
@@ -615,7 +553,7 @@ class Workspace extends Component {
         valueFrom = toValue;
       }
 
-      var fretNotes = [['E1', 'B2', 'G3', 'D4', 'A5', 'E6'],
+      let fretNotes = [['E1', 'B2', 'G3', 'D4', 'A5', 'E6'],
                        ['F1', 'C2', 'G#3', 'D#4', 'A#5', 'F6'],
                        ['F#1', 'C#2', 'A3', 'E4', 'B5', 'F#6'],
                        ['G1', 'D2', 'A#3', 'F4', 'C5', 'G6'],
@@ -628,7 +566,7 @@ class Workspace extends Component {
                        ['D1', 'A2', 'F3', 'C4', 'G5', 'D6'],
                        ['D#1', 'A#2', 'F#3', 'C#4', 'G#5', 'D#6']]
 
-      var notesToRemove = ''
+      let notesToRemove = ''
 
       for (var i = valueFrom; i <= valueTo; i++) {
         for (var z = 0; z <= 5; z++) {
@@ -642,7 +580,7 @@ class Workspace extends Component {
         notesToRemove += ' ';
       }      
 
-      var notesThatWontBeRemoved = '';
+      let notesThatWontBeRemoved = '';
 
       for (var x = 0; x < this.state.boardInfo[position].settedNotes.split(' ').length; x++) {
         if (notesToRemove.includes(this.state.boardInfo[position].settedNotes.split(' ')[x]) !== true) {
@@ -650,37 +588,23 @@ class Workspace extends Component {
         }
       }
 
-      var boardToEdit = this.state.boardInfo.filter(
+      let boardToEdit = this.state.boardInfo.filter(
         (board) => {
           return board.id === id
         }
       )[0];
 
       let sortedNotes = this.getTheSortedNotesOfAllStrings();
+      let stringsCorrespondencies = this.getTheStringCorrespondencies()
 
       for(var v = 0; v < notesToRemove.split(' ').length; v++) {
-        if (notesToRemove.split(' ')[v].slice(-1) === '1') {
-          boardToEdit.noteColor.firststring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.firststring, boardToEdit.noteColor.firststring);
-        }
-        if (notesToRemove.split(' ')[v].slice(-1) === '2') {
-          boardToEdit.noteColor.secondstring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.secondstring, boardToEdit.noteColor.secondstring);
-        }
-        if (notesToRemove.split(' ')[v].slice(-1) === '3') {
-          boardToEdit.noteColor.thirdstring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.thirdstring, boardToEdit.noteColor.thirdstring);
-        }
-        if (notesToRemove.split(' ')[v].slice(-1) === '4') {
-          boardToEdit.noteColor.fourthstring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.fourthstring, boardToEdit.noteColor.fourthstring);
-        }
-        if (notesToRemove.split(' ')[v].slice(-1) === '5') {
-          boardToEdit.noteColor.fifthstring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.fifthstring, boardToEdit.noteColor.fifthstring);
-        }
-        if (notesToRemove.split(' ')[v].slice(-1) === '6') {
-          boardToEdit.noteColor.sixthstring = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes.firststring, boardToEdit.noteColor.sixthstring);
+        if(notesToRemove.split(' ')[v] !== '') {
+          boardToEdit.noteColor[stringsCorrespondencies[notesToRemove.split(' ')[v].slice(-1)]] = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotes[notesToRemove.split(' ')[v].slice(-1)], boardToEdit.noteColor[stringsCorrespondencies[notesToRemove.split(' ')[v].slice(-1)]]);
         }
       }
 
       boardToEdit.settedNotes = notesThatWontBeRemoved;
-      var newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+      let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
 
       this.setState({...this.state, boardInfo: newBoardInfoState})
     }
