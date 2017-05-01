@@ -1,0 +1,16 @@
+.Fretguide {
+  display: flex;
+  flex-flow: row; }
+  .Fretguide div {
+    height: 20px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  .Fretguide .aire {
+    border-right-color: rgba(230, 230, 138, 0); }
+  .Fretguide .traste {
+    border-right-color: rgba(158, 158, 151, 0); }
+
+/*# sourceMappingURL=index.css.map */
