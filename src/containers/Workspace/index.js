@@ -9,6 +9,7 @@ class Workspace extends Component {
     super();
     this.state = {
       boardInfo: [],
+      history: []
     }
 
     /*addBoard cand add independent workspaces to be rendered*/
@@ -222,7 +223,7 @@ class Workspace extends Component {
 
   setColorsInArrayByString(notesActive, sortedNotes, string) {
     
-    var setOfColors = {'1': ['#ff9933', '#64c5af', '#d6a87c',
+    let setOfColors = {'1': ['#ff9933', '#64c5af', '#d6a87c',
                              '#00d27f', '#cd8c95', '#ffcc33',
                              '#66ff33', '#ff66ff', '#0099ff',
                              '#ff6633', '#9966cc', '#ff6666'],
@@ -314,7 +315,7 @@ class Workspace extends Component {
   getSortedNotes(notes, string) {
     let sortedNotesByString = this.getTheSortedNotesOfAllStrings();
 
-    var sortedNotes = '';
+    let sortedNotes = '';
     let unsortedNotes = this.getScaleNotesOnString(notes, string)
 
     sortedNotes = this.sortThisNotes(sortedNotesByString[string], unsortedNotes)
@@ -325,7 +326,7 @@ class Workspace extends Component {
   }
 
   sortThisNotes(sortedNotes, unsortedNotes) {
-    var resultOfSortNotes = '';
+    let resultOfSortNotes = '';
 
     for (var x = 0; x < sortedNotes.split(' ').length; x++) {
       for (var y = 0; y < unsortedNotes.split(' ').length; y++) {
@@ -338,7 +339,7 @@ class Workspace extends Component {
   }
 
   getScaleNotesOnString(notes, string) {
-    var notesOnString = '';
+    let notesOnString = '';
     for (var j = 0; j < notes.split(' ').length; j++) {
       if (notes.split(' ')[j].includes(string)) {
         if (notes.split(' ')[j].includes('#')) {
@@ -381,8 +382,8 @@ class Workspace extends Component {
   }
 
   getNewStateWithSamePosition(position, mutatingState, entireState) {
-    var x = 0;
-    var newState = [];
+    let x = 0;
+    let newState = [];
     
     while (x < entireState.length){
       if (x === position) {
@@ -437,7 +438,7 @@ class Workspace extends Component {
   }
 
   getScaleNotes(position) {
-    var scaleNotes = ''
+    let scaleNotes = ''
     for (var j = 0; j < this.state.boardInfo[position].settedNotes.split(' ').length; j++) {
 
       if (this.state.boardInfo[position].settedNotes.split(' ')[j] !== '') {
@@ -463,8 +464,8 @@ class Workspace extends Component {
   }
 
   setInversions(id, position) {
-    var notesToInvert = this.getScaleNotes(position);
-    var inversions = '';
+    let notesToInvert = this.getScaleNotes(position);
+    let inversions = '';
 
     for (var i = 0; i < notesToInvert.split(' ').length; i++) {
       
@@ -511,7 +512,7 @@ class Workspace extends Component {
   }
 
   removeStringNotes(id, position, string) {
-    var notesThatWontBeRemoved = ''
+    let notesThatWontBeRemoved = ''
     for (var x = 0; x < this.state.boardInfo[position].settedNotes.split(' ').length; x++){
       if (this.state.boardInfo[position].settedNotes.split(' ')[x] !== '') {
         if (this.state.boardInfo[position].settedNotes.split(' ')[x].includes(string.toString()) !== true) {

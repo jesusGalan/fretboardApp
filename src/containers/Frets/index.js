@@ -10,10 +10,10 @@ import Fifthstring from '../../components/Fifthstring'
 import Sixthstring from '../../components/Sixthstring'
 
 
-class Fret extends Component {
+class Frets extends Component {
   render() {
     return (
-      <div className="Fret">
+      <div className="Frets">
 
         <Fretguide/>
 
@@ -52,4 +52,4 @@ class Fret extends Component {
   }
 }
 
-export default Fret;
+export default Frets;

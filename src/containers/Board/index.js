@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './index.css';
 
-import Fret from '../Fret'
+import Frets from '../Frets'
 import Toolbox from '../../components/Toolbox'
 
 
@@ -17,7 +17,7 @@ class Board extends Component {
     return (
       <div className="Board">
 
-        <Fret settedNotes={this.props.settedNotes}
+        <Frets settedNotes={this.props.settedNotes}
               setDataNote={this.props.setNote}
               removeNote={this.props.unsetNote}
               noteColor={this.props.noteColor}/>
