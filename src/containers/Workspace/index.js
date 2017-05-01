@@ -262,7 +262,6 @@ class Workspace extends Component {
     let count = 0
     let coloredArray = []
 
-    console.log(activeNotes, sortedNotes)
     for (var x = 0; x < sortedNotes.split(' ').length; x++) {
       for (var y = 0; y < activeNotes.split(' ').length; y++) {
         if (sortedNotes.split(' ')[x] === activeNotes.split(' ')[y]) {
@@ -355,12 +354,12 @@ class Workspace extends Component {
   }
 
   removeBoardById(id) {
-    console.log('This board with the ' + id + ' will be removed.');
     this.setState({...this.state, boardInfo: this.state.boardInfo.filter(
       (board) => {
         return board.id !== id
       }
     )});
+    console.log('This board with the ' + id + ' have been removed.');
   }
 
   setNote(id, position, note) {
