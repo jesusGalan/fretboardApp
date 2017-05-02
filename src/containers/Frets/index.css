@@ -52,19 +52,6 @@ div .t10 {
 div .t11 {
   width: 41px; }
 
-.note-button {
-  width: 30px;
-  height: 30px;
-  color: black;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-
 .Fret {
   display: flex;
   flex-flow: column;

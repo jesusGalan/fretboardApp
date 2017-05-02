@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import './index.css';
 
 import Fretguide from '../../components/Fretguide'
-import Firststring from '../../components/Firststring'
-import Secondstring from '../../components/Secondstring'
-import Thirdstring from '../../components/Thirdstring'
-import Fourthstring from '../../components/Fourthstring'
-import Fifthstring from '../../components/Fifthstring'
-import Sixthstring from '../../components/Sixthstring'
+
+import String from '../String'
 
 
 class Frets extends Component {
@@ -17,35 +13,47 @@ class Frets extends Component {
 
         <Fretguide/>
 
-        <Firststring data={this.props.settedNotes}
-                     setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}
-                     noteColor={this.props.noteColor.firststring}/>
+        <String data={this.props.settedNotes}
+                setNote={this.props.setDataNote}
+                removeNote={this.props.removeNote}
+                notesColors={this.props.noteColor.firststring}
+                stringNameAndNumber="primera-1"
+                sortNotes={['E', 'F','F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#']}></String>
 
-        <Secondstring data={this.props.settedNotes}
-                      setNote={this.props.setDataNote}
-                      removeNote={this.props.removeNote}
-                      noteColor={this.props.noteColor.secondstring}/>
+        <String data={this.props.settedNotes}
+                setNote={this.props.setDataNote}
+                removeNote={this.props.removeNote}
+                notesColors={this.props.noteColor.secondstring}
+                stringNameAndNumber="segunda-2"
+                sortNotes={['B', 'C', 'C#', 'D', 'D#', 'E', 'F','F#', 'G', 'G#', 'A', 'A#']}></String>
 
-        <Thirdstring data={this.props.settedNotes}
-                     setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}
-                     noteColor={this.props.noteColor.thirdstring}/>
+        <String data={this.props.settedNotes}
+                setNote={this.props.setDataNote}
+                removeNote={this.props.removeNote}
+                notesColors={this.props.noteColor.thirdstring}
+                stringNameAndNumber="tercera-3"
+                sortNotes={['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F','F#']}></String>
 
-        <Fourthstring data={this.props.settedNotes}
-                      setNote={this.props.setDataNote}
-                      removeNote={this.props.removeNote}
-                      noteColor={this.props.noteColor.fourthstring}/>
+        <String data={this.props.settedNotes}
+                setNote={this.props.setDataNote}
+                removeNote={this.props.removeNote}
+                notesColors={this.props.noteColor.fourthstring}
+                stringNameAndNumber="cuarta-4"
+                sortNotes={['D', 'D#', 'E', 'F','F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#']}></String>
 
-        <Fifthstring data={this.props.settedNotes}
-                     setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}
-                     noteColor={this.props.noteColor.fifthstring}/>
+        <String data={this.props.settedNotes}
+                setNote={this.props.setDataNote}
+                removeNote={this.props.removeNote}
+                notesColors={this.props.noteColor.fifthstring}
+                stringNameAndNumber="quinta-5"
+                sortNotes={['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']}></String>
 
-        <Sixthstring data={this.props.settedNotes}
-                     setNote={this.props.setDataNote}
-                     removeNote={this.props.removeNote}
-                     noteColor={this.props.noteColor.sixthstring}/>
+        <String data={this.props.settedNotes}
+                setNote={this.props.setDataNote}
+                removeNote={this.props.removeNote}
+                notesColors={this.props.noteColor.sixthstring}
+                stringNameAndNumber="sexta-6"
+                sortNotes={['E', 'F','F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#']}></String>
 
       </div>
     );

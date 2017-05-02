@@ -1,1 +1,14 @@
 @import '../../style/common'
+
+.Note
+  flex: 1
+  
+  .button-wrapper
+    +note-wrap
+
+  .note-button
+    width: 30px
+    height: 30px
+    color: black
+    +border-radius(50%)
+    +avoidSelection()

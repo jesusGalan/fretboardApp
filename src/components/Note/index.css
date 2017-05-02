@@ -1,3 +1,28 @@
-
+.Note {
+  flex: 1; }
+  .Note .button-wrapper {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: column;
+    -webkit-flex-flow: column;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+    margin: 5px 0 0 0; }
+  .Note .note-button {
+    width: 30px;
+    height: 30px;
+    color: black;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
 
 /*# sourceMappingURL=index.css.map */

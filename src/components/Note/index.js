@@ -11,14 +11,13 @@ class Note extends Component {
   }
 
   drawNote(note) {
-    if (this.props.data.includes(note + this.props.numberOfString)){
+    if (this.props.data.includes(note + this.props.stringNumber)){
       return (
         <div className="button-wrapper">
           <button
             style={{backgroundColor: this.props.noteColor}}
-            id={this.props.numberOfString + note}
             className="note-button"
-            onClick={() => this.props.removeNote(note + this.props.numberOfString)}>
+            onClick={() => this.props.removeNote(note + this.props.stringNumber)}>
                 {note}
           </button>
         </div>
