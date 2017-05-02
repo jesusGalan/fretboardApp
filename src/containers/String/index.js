@@ -5,9 +5,6 @@ import Fret from '../../components/Fret'
 import './index.css';
 
 class String extends Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         let strings = []
         let x = 0
@@ -25,7 +22,7 @@ class String extends Component {
 
     renderFrets(x) {
         return (
-            <div className="String">
+            <div className="String" key={x}>
                 <Fret notesColors={this.props.notesColors}
                     data={this.props.data}
                     stringName={this.props.stringNameAndNumber.split('-')[0]}
