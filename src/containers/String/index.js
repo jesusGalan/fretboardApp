@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import './index.css';
 
 import Fret from '../../components/Fret'
 
-import './index.css';
 
 class String extends Component {
     render() {

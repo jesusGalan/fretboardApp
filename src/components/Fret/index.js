@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import './index.css'
 
 import Note from '../Note'
-
-import './index.css'
 
 class Fret extends Component {
     render() {

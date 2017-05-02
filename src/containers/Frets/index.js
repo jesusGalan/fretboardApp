@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './index.css';
 
 import Fretguide from '../../components/Fretguide'
-
 import String from '../String'
 
 
