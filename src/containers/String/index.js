@@ -22,7 +22,7 @@ class String extends Component {
 
     renderFrets(x) {
         return (
-            <div className="String" key={x}>
+            <div key={x}>
                 <Fret notesColors={this.props.notesColors}
                     data={this.props.data}
                     stringName={this.props.stringNameAndNumber.split('-')[0]}
