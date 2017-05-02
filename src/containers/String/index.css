@@ -6,7 +6,7 @@
   display: flex;
   flex-flow: row;
   -webkit-flex-flow: row; }
-  .String .primera {
+  .String .firststring {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -27,7 +27,7 @@
     background: linear-gradient(to bottom, #210808 0%, #210808 9%, #210808 19%, #210808 30%, #210808 42%, white 49%, #210808 52%, #210808 72%, #210808 81%, #210808 88%, #210808 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#210808', endColorstr='#210808', GradientType=0);
     height: 40px; }
-  .String .segunda {
+  .String .secondstring {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -44,7 +44,7 @@
     background: linear-gradient(to bottom, #210808 0%, #210808 9%, #210808 19%, #210808 30%, #210808 42%, white 50%, #210808 54%, #210808 72%, #210808 81%, #210808 88%, #210808 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#210808', endColorstr='#210808', GradientType=0 );
     height: 40px; }
-  .String .tercera {
+  .String .thirdstring {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -61,7 +61,7 @@
     background: linear-gradient(to bottom, #210808 0%, #210808 9%, #210808 19%, #210808 30%, #210808 42%, white 51%, #210808 55%, #210808 72%, #210808 81%, #210808 88%, #210808 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#210808', endColorstr='#210808', GradientType=0 );
     height: 40px; }
-  .String .cuarta {
+  .String .fourthstring {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -78,7 +78,7 @@
     background: linear-gradient(to bottom, #210808 0%, #210808 9%, #210808 19%, #210808 30%, #210808 37%, #b3b3b3 52%, #210808 62%, #210808 72%, #210808 81%, #210808 88%, #210808 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#210808', endColorstr='#210808', GradientType=0 );
     height: 40px; }
-  .String .quinta {
+  .String .fifthstring {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -95,7 +95,7 @@
     background: linear-gradient(to bottom, #210808 0%, #210808 9%, #210808 19%, #210808 30%, #210808 40%, #b3b3b3 52%, #210808 68%, #210808 72%, #210808 81%, #210808 88%, #210808 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#210808', endColorstr='#210808', GradientType=0 );
     height: 40px; }
-  .String .sexta {
+  .String .sixthstring {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
