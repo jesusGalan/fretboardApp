@@ -6,13 +6,6 @@ import Toolbox from '../../components/Toolbox'
 
 
 class Board extends Component {
-  constructor() {
-    super();
-    this.state = {
-      colourSet: ['#123412', '#432411']
-    }
-
-  }
   render() {
     return (
       <div className="Board">

@@ -48,18 +48,19 @@ class Workspace extends Component {
   }
 
   addBoard() {
+    let emptyArray = ['', '', '', '', '', '', '', '', '', '', '', '']
     this.setState({
       ...this.state,
       boardInfo: [
         ...this.state.boardInfo,
         {id: Math.random().toString(),
          settedNotes: "",
-         noteColor: {'firststring': [],
-                     'secondstring': [],
-                     'thirdstring': [],
-                     'fourthstring': [],
-                     'fifthstring': [],
-                     'sixthstring': []}
+         noteColor: {'firststring': emptyArray,
+                     'secondstring': emptyArray,
+                     'thirdstring': emptyArray,
+                     'fourthstring': emptyArray,
+                     'fifthstring': emptyArray,
+                     'sixthstring': emptyArray}
         }
       ]
     })
@@ -86,23 +87,17 @@ class Workspace extends Component {
     )
   }
 
-  moveColorsToLeft(id, position, string) {
-    let boardToEdit = this.state.boardInfo.find(
+  getTheBoardToEdit(id) {
+    return this.state.boardInfo.find(
       (board) => {
         return board.id === id
       }
     )
-    
-    let stringsCorrespondencies = {
-        '1': 'firststring',
-        '2': 'secondstring',
-        '3': 'thirdstring',
-        '4': 'fourthstring',
-        '5': 'fifthstring',
-        '6': 'sixthstring'
-    }
-    
-    let stringNotes = stringsCorrespondencies[string]
+  }
+
+  moveColorsToLeft(id, position, string) {
+    let boardToEdit = this.getTheBoardToEdit(id)
+    let stringNotes = this.getTheStringCorrespondencies()[string]
     let colors = boardToEdit.noteColor[stringNotes]
     let positionsOfColors = []
     let colorsToBeSplice = []
@@ -150,30 +145,22 @@ class Workspace extends Component {
   }
 
   moveColorsToRight(id, position, string) {
-    let boardToEdit = this.state.boardInfo.find(
-      (board) => {
-        return board.id === id
-      }
-    );
-    
-    let stringsCorrespondencies = this.getTheStringCorrespondencies()
-
-    let stringNotes = stringsCorrespondencies[string]
-    
+    let boardToEdit = this.getTheBoardToEdit(id)    
+    let stringNotes = this.getTheStringCorrespondencies()[string]
     let colors = boardToEdit.noteColor[stringNotes]
     let positionsOfColors = []
-    let colorsToBeSplice = []
+    let splicedColors = []
 
     for (var x = 0; x < colors.length; x++) {
       if (colors[x] !== '') {
-        colorsToBeSplice.push(colors[x])
+        splicedColors.push(colors[x])
         positionsOfColors.push(x)
       }
     }
 
-    let colorsFlipped = [
-      colorsToBeSplice[colorsToBeSplice.length - 1],
-      ...colorsToBeSplice.splice(0, colorsToBeSplice.length - 1)
+    let flippedColors = [
+      splicedColors[splicedColors.length - 1],
+      ...splicedColors.splice(0, splicedColors.length - 1)
     ]
 
     let goodColorSet = []
@@ -182,7 +169,7 @@ class Workspace extends Component {
     for (var v = 0; v < colors.length; v++) {
       for (var j = 0; j < positionsOfColors.length; j++) {
         if (positionsOfColors[j] === v){
-          goodColorSet.push(colorsFlipped[j])
+          goodColorSet.push(flippedColors[j])
           count += 1
         }
       }
@@ -200,11 +187,7 @@ class Workspace extends Component {
   }
 
   colourNotesSet(id, position) {
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
-      }
-    )[0];
+    let boardToEdit = this.getTheBoardToEdit(id)
 
     let sortedNotesByString = this.getTheSortedNotesOfAllStrings();
     let stringsCorrespondencies = this.getTheStringCorrespondencies();
@@ -213,7 +196,8 @@ class Workspace extends Component {
     
     for (var x = 1; x <= 6; x++) {
       notesActiveByString = this.getSortedNotes(boardToEdit.settedNotes, x);
-      boardToEdit.noteColor[stringsCorrespondencies[x]] = this.setColorsInArrayByString(notesActiveByString, sortedNotesByString[x], x)
+      boardToEdit.noteColor[stringsCorrespondencies[x]] = this.setColorsInArray(notesActiveByString, sortedNotesByString[x], this.getSetOfColors()[x])
+      
     }
 
     let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
@@ -221,42 +205,42 @@ class Workspace extends Component {
     this.setState({...this.state, boardInfo: newBoardInfoState})
   }
 
-  setColorsInArrayByString(notesActive, sortedNotes, string) {
-    
-    let setOfColors = {'1': ['#ff9933', '#64c5af', '#d6a87c',
-                             '#00d27f', '#cd8c95', '#ffcc33',
-                             '#66ff33', '#ff66ff', '#0099ff',
-                             '#ff6633', '#9966cc', '#ff6666'],
+  getSetOfColors() {
+    return {'0': ['#bebebe', '#bebebe', '#bebebe',
+                  '#bebebe', '#bebebe', '#bebebe',
+                  '#bebebe', '#bebebe', '#bebebe',
+                  '#bebebe', '#bebebe', '#bebebe'],
 
-                       '2': ['#ff66ff', '#0099ff', '#ff6633',
-                             '#9966cc', '#ff6666', '#ff9933',
-                             '#64c5af', '#d6a87c', '#00d27f',
-                             '#cd8c95', '#ffcc33', '#66ff33'],
+            '1': ['#ff9933', '#64c5af', '#d6a87c',
+                  '#00d27f', '#cd8c95', '#ffcc33',
+                  '#66ff33', '#ff66ff', '#0099ff',
+                  '#ff6633', '#9966cc', '#ff6666'],
 
-                       '3': ['#00d27f', '#cd8c95', '#ffcc33',
-                             '#66ff33', '#ff66ff', '#0099ff',
-                             '#ff6633', '#9966cc', '#ff6666',
-                             '#ff9933', '#64c5af', '#d6a87c'],
+            '2': ['#ff66ff', '#0099ff', '#ff6633',
+                  '#9966cc', '#ff6666', '#ff9933',
+                  '#64c5af', '#d6a87c', '#00d27f',
+                  '#cd8c95', '#ffcc33', '#66ff33'],
 
-                       '4': ['#9966cc', '#ff6666', '#ff9933',
-                             '#64c5af', '#d6a87c', '#00d27f',
-                             '#cd8c95', '#ffcc33', '#66ff33',
-                             '#ff66ff', '#0099ff', '#ff6633'],
+            '3': ['#00d27f', '#cd8c95', '#ffcc33',
+                  '#66ff33', '#ff66ff', '#0099ff',
+                  '#ff6633', '#9966cc', '#ff6666',
+                  '#ff9933', '#64c5af', '#d6a87c'],
 
-                       '5': ['#ffcc33', '#66ff33', '#ff66ff',
-                             '#0099ff', '#ff6633', '#9966cc',
-                             '#ff6666', '#ff9933', '#64c5af',
-                             '#d6a87c', '#00d27f', '#cd8c95'],
-                       
-                       '6': ['#ff9933', '#64c5af', '#d6a87c',
-                             '#00d27f', '#cd8c95', '#ffcc33',
-                             '#66ff33', '#ff66ff', '#0099ff',
-                             '#ff6633', '#9966cc', '#ff6666']
+            '4': ['#9966cc', '#ff6666', '#ff9933',
+                  '#64c5af', '#d6a87c', '#00d27f',
+                  '#cd8c95', '#ffcc33', '#66ff33',
+                  '#ff66ff', '#0099ff', '#ff6633'],
+
+            '5': ['#ffcc33', '#66ff33', '#ff66ff',
+                  '#0099ff', '#ff6633', '#9966cc',
+                  '#ff6666', '#ff9933', '#64c5af',
+                  '#d6a87c', '#00d27f', '#cd8c95'],
+            
+            '6': ['#ff9933', '#64c5af', '#d6a87c',
+                  '#00d27f', '#cd8c95', '#ffcc33',
+                  '#66ff33', '#ff66ff', '#0099ff',
+                  '#ff6633', '#9966cc', '#ff6666']
     }
-
-    let arrayOfResults = this.setColorsInArray(notesActive, sortedNotes, setOfColors[string])
-
-    return arrayOfResults
   }
 
   setColorsInArray(activeNotes, sortedNotes, setOfColors) {
@@ -364,21 +348,42 @@ class Workspace extends Component {
   }
 
   setNote(id, position, note) {
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
-      }
-    )[0];
+    let boardToEdit = this.getTheBoardToEdit(id)
+    let stringsCorrespondencies = this.getTheStringCorrespondencies();
+    let noteColorArrayOfNote = this.state.boardInfo[position].noteColor[stringsCorrespondencies[note.slice(-1)]]
 
     if (boardToEdit.settedNotes.includes(note) !== true){
       boardToEdit.settedNotes = (boardToEdit.settedNotes + ' ' + note + ' ').replace('  ', ' ');
+      boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.setAColorByNote(note, '#bebebe', this.getTheSortedNotesOfAllStrings()[note.slice(-1)], noteColorArrayOfNote)
 
       let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
 
       this.setState({...this.state, boardInfo: newBoardInfoState})
+
+      console.log('This board have been edit: ', boardToEdit)
+    }
+  }
+
+  setAColorByNote(note, color, sortedNotes, arrayQueYaTengo) {
+    let coloredArray = []
+    let cleanNote = ''
+
+    if (note.includes('#')) {
+      cleanNote += note.charAt(0) + note.charAt(1)
+    }
+    else {
+      cleanNote += note.charAt(0)
     }
 
-    console.log('This board have been edit: ', boardToEdit)
+    for (var x = 0; x < sortedNotes.split(' ').length; x++) {
+      if (sortedNotes.split(' ')[x] === cleanNote) {
+        coloredArray.push(color);
+      }
+      else {
+        coloredArray.push(arrayQueYaTengo[x]);
+      }
+    }
+    return coloredArray
   }
 
   getNewStateWithSamePosition(position, mutatingState, entireState) {
@@ -398,12 +403,7 @@ class Workspace extends Component {
   }
 
   unsetNote(id, position, note) {
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
-      }
-    )[0];
-
+    let boardToEdit = this.getTheBoardToEdit(id)
     let stringsCorrespondencies = this.getTheStringCorrespondencies()
     let sortedNotes = this.getTheSortedNotesOfAllStrings();
     boardToEdit.settedNotes = (boardToEdit.settedNotes).replace(note + ' ', '');
@@ -416,11 +416,7 @@ class Workspace extends Component {
   }
 
   setAllNotes(id, position) {
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
-      }
-    )[0];
+    let boardToEdit = this.getTheBoardToEdit(id)
 
     boardToEdit.settedNotes = 'E1 F1 F#1 G1 G#1 A1 A#1 B1 C1 C#1 D1 D#1 ' +
                               'B2 C2 C#2 D2 D#2 E2 F2 F#2 G2 G#2 A2 A#2 ' +
@@ -428,6 +424,11 @@ class Workspace extends Component {
                               'D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C4 C#4 ' +
                               'A5 A#5 B5 C5 C#5 D5 D#5 E5 F5 F#5 G5 G#5 ' +
                               'E6 F6 F#6 G6 G#6 A6 A#6 B6 C6 C#6 D6 D#6 ';
+
+    let stringsCorrespondencies = this.getTheStringCorrespondencies()
+    for (var x = 1; x <= 6; x++) {
+      boardToEdit.noteColor[stringsCorrespondencies[x]] = this.getSetOfColors()['0']
+    }
 
     let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
     
@@ -465,38 +466,37 @@ class Workspace extends Component {
 
   setInversions(id, position) {
     let notesToInvert = this.getScaleNotes(position);
-    let inversions = '';
-
+    let inversions = [];
+   
     for (var i = 0; i < notesToInvert.split(' ').length; i++) {
-      
       if (notesToInvert.split(' ')[i] !== '') {
         for (var z = 1; z <= 6; z++) {
-          inversions += notesToInvert.split(' ')[i].toString() + z.toString() + " ";
+          inversions.push(notesToInvert.split(' ')[i].toString() + z.toString()) 
         }
       }
-
     }
 
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
+    for (var h = 0; h < this.state.boardInfo[position].settedNotes.split(' ').length; h++) {
+      inversions = this.removeElementFromArray(this.state.boardInfo[position].settedNotes.split(' ')[h], inversions)
+    }
+
+    for (var t = 0; t < inversions.length; t++) {
+      this.setNote(id, position, inversions[t])
+    }
+  }
+
+  removeElementFromArray(elem, arr) {
+    let newArray = []
+    for (var x = 0; x < arr.length; x++) {
+      if (elem !== arr[x]) {
+        newArray.push(arr[x])
       }
-    )[0];
-
-    boardToEdit.settedNotes = inversions;
-    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);;
-
-    this.setState({...this.state, boardInfo: newBoardInfoState})
-
+    }
+    return newArray
   }
 
   unsetAllNotes(id, position) {
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
-      }
-    )[0];
-
+    let boardToEdit = this.getTheBoardToEdit(id)
     let stringsCorrespondencies = this.getTheStringCorrespondencies()
 
     boardToEdit.settedNotes = '';
@@ -521,11 +521,7 @@ class Workspace extends Component {
       }
     }
 
-    let boardToEdit = this.state.boardInfo.filter(
-      (board) => {
-        return board.id === id
-      }
-    )[0];
+    let boardToEdit = this.getTheBoardToEdit(id)
 
     boardToEdit.settedNotes = notesThatWontBeRemoved;
 
@@ -588,11 +584,7 @@ class Workspace extends Component {
         }
       }
 
-      let boardToEdit = this.state.boardInfo.filter(
-        (board) => {
-          return board.id === id
-        }
-      )[0];
+      let boardToEdit = this.getTheBoardToEdit(id)
 
       let sortedNotes = this.getTheSortedNotesOfAllStrings();
       let stringsCorrespondencies = this.getTheStringCorrespondencies()
@@ -610,6 +602,5 @@ class Workspace extends Component {
     }
   }
 }
-
 
 export default Workspace;
