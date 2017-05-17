@@ -1,12 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import 'font-awesome/css/font-awesome.css';
+import injectGlobalStyles from 'utils/styles/injectGlobalStyles'
+import 'font-awesome/css/font-awesome.css'
+import App from 'components/App'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import './index.css';
+injectGlobalStyles()
 
 ReactDOM.render(
-  <App />,
+  <Router>
+    <Route path="/" component={App} />
+  </Router>,
   document.getElementById('root')
-);
+)
