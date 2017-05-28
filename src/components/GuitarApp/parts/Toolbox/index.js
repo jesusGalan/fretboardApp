@@ -14,6 +14,7 @@ class Toolbox extends Component {
     this.state = {
       valueFromId: Math.random(),
       valueToId: Math.random(),
+      tuningId: Math.random()
     }
   }
 
@@ -39,7 +40,7 @@ class Toolbox extends Component {
     let strings = ['1', '2', '3', '4', '5', '6']
     const stringTools = () => {
       return (
-        <Row>
+        <Row long="1">
           <Col>
             {strings.map((i, x) => this.renderStringTools(x, i, 'arrow-left'))}
           </Col>
@@ -55,13 +56,33 @@ class Toolbox extends Component {
 
     const boardTopTools = () => {
       return (
-        <select name="afinaciones" id="tuning">
-          <option value="1">Windows Vista</option> 
-          <option value="2">Windows 7</option> 
-          <option value="3">Windows XP</option>
-          <option value="10">Fedora</option> 
-          <option value="11">Debian</option> 
-          <option value="12">Suse</option> 
+        <select style={{flex: 2}} name="afinaciones" id={this.state.tuningId} onChange={() => this.props.changeTuning(document.getElementById(this.state.tuningId).value)}>
+          <option value="standard">Standard</option> 
+          
+          <option value="openA">OpenA</option>
+          <option value="openA 1">OpenA alt</option>
+          <option value="openA 2">OpenA alt 2</option>
+          <option value="slide openA">Slide OpenA</option>
+          
+          <option value="openB">OpenB</option>
+          <option value="openB 1">OpenB alt</option>
+          
+          <option value="openC">OpenC</option>
+          <option value="openC 1">OpenC alt</option>
+          <option value="openC 2">OpenC alt 2</option>
+          
+          <option value="openD">OpenD</option>
+          <option value="openD 1">OpenD alt</option> 
+          
+          <option value="openE">OpenE</option> 
+          
+          <option value="openF">OpenF</option>
+          <option value="openF 1">OpenF alt</option>
+
+          <option value="openG">OpenG</option>
+          <option value="openG 1">OpenG alt</option>
+          <option value="openG 2">OpenG alt 2</option>
+          <option value="openG 3">OpenG alt 3</option>
         </select>
       )
     }
@@ -69,8 +90,8 @@ class Toolbox extends Component {
     const mainBoardFunctions = () => {
       return (
         <Row>
-          <FlexButton className="fa fa-undo" aria-hidden="true" />
-          <FlexButton className="fa fa-repeat" aria-hidden="true" />
+          <FlexButton disabled={this.props.history.UndoStatesRepository.length < 1 ? true : false} className="fa fa-undo" aria-hidden="true" onClick={this.props.undo}/>
+          <FlexButton disabled={this.props.history.RedoStatesRepository.length < 1 ? true : false} className="fa fa-repeat" aria-hidden="true" onClick={this.props.redo}/>
           <FlexButton className="fa fa-times" aria-hidden="true" onClick={this.props.eraseBoard} />
         </Row>
       )
@@ -108,7 +129,7 @@ class Toolbox extends Component {
     return (
       <MainBox>
         {stringTools()}
-        <Row>
+        <Row long="3">
           <Col>
             <Col>
               <Row long="1">

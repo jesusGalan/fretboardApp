@@ -4,8 +4,9 @@ export const MainBox = styled.div`
   display: flex;
   margin-top: 20px;
   margin-left: 10px;
-  //this Width prevent for resizing when display is coming smaller
-  width: 1px;
+  flex: 1;
+  max-width: 260px
+  min-width: 260px
 `
 
 export const Title = styled.h1`

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import {BorderedDiv} from './styled'
 
-import Note from '../Note'
+import Note from 'components/GuitarApp/parts/Note'
 
 class Fret extends Component {
     render() {

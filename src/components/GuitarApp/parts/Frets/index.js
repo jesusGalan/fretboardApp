@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Fretguide from 'components/Mastboard/parts/Fretguide'
-import String from 'components/Mastboard/parts/String'
+import Fretguide from 'components/GuitarApp/parts/Fretguide'
+import String from 'components/GuitarApp/parts/String'
 
 
 class Frets extends Component {
@@ -21,14 +21,7 @@ class Frets extends Component {
   }
 
   renderString(x, i) {
-    let stringAndNotesCorrespondencies = {
-      '1': ['firststring', ['E', 'F','F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#']],
-      '2': ['secondstring', ['B', 'C', 'C#', 'D', 'D#', 'E', 'F','F#', 'G', 'G#', 'A', 'A#']],
-      '3': ['thirdstring', ['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F','F#']],
-      '4': ['fourthstring', ['D', 'D#', 'E', 'F','F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#']],
-      '5': ['fifthstring', ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']],
-      '6': ['sixthstring', ['E', 'F','F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#']]
-    }
+    let stringAndNotesCorrespondencies = this.props.tuning['tuningInfo']
     return (
       <String key={i}
               data={this.props.settedNotes}

@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import {Route, Link} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 
-import Mastboard from 'components/Mastboard'
+import NavigationBar from 'components/NavigationBar'
+import GuitarApp from 'components/GuitarApp'
 
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <NavigationBar/>
         <div className="container">
-          <Link to="/guitar">guitar app</Link>
-          <Route path="/guitar" component={Mastboard} />
-          
+          <Route path="/guitar" component={GuitarApp} />
         </div>         
       </div>
     );

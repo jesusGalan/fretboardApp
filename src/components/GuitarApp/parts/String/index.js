@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {FirstStringRow, SecondStringRow, ThirdStringRow, FourthStringRow, FifthStringRow, SixthStringRow} from './styled'
-import Fret from 'components/Mastboard/parts/Fret'
+import Fret from 'components/GuitarApp/parts/Fret'
 
 
 class String extends Component {
