@@ -102,7 +102,7 @@ class Mastboard extends Component {
               setNote={this.setNote.bind(this, info.id, boardPosition, info.tuning)}
               unsetNote={this.unsetNote.bind(this, info.id, boardPosition)}
               setAllNotes={() => this.setAllNotes(info.id, boardPosition)}
-              setInversions={() => this.setInversions(info.id, boardPosition)}
+              setInversions={() => this.setInversions(info.id, boardPosition, info.tuning)}
               removeStringNotes={this.removeStringNotes.bind(this, info.id, boardPosition)}
               unsetAllNotes={() => this.unsetAllNotes(info.id, boardPosition)}
               removeThisBoard={() => this.removeBoardById(info.id)}
@@ -124,13 +124,14 @@ class Mastboard extends Component {
     let dictionaryOfResults = {'1' : [], '2' : [], '3' : [], '4' : [], '5' : [], '6' : []}
     let notesActiveByString
     let count = 0
+    let u = 0, x = 0, y = 0
 
-    for (var u = 1; u <= 6; u++) {
+    for (u = 1; u <= 6; u++) {
       notesActiveByString = this.getSortedNotes(workingBoard.settedNotes, u)
       count = 0
-      for (var x = 0; x < getTunings(tuning)['tuningInfo'][u][1].length; x++) {
+      for (x = 0; x < getTunings(tuning)['tuningInfo'][u][1].length; x++) {
         
-        for (var y = 0; y < notesActiveByString.split(' ').length; y++) {
+        for (y = 0; y < notesActiveByString.split(' ').length; y++) {
           if (getTunings(tuning)['tuningInfo'][u][1][x] === notesActiveByString.split(' ')[y]) {
             dictionaryOfResults[u].push([notesActiveByString.split(' ')[y], workingBoard.noteColor[stringCorrespondencies()[u]][x]]);
             count += 1;
@@ -147,12 +148,12 @@ class Mastboard extends Component {
 
   getNewNoteColors(mixNotesAndColors, tuning) {
     let newNoteColor = {'firststring': [], 'secondstring': [], 'thirdstring': [], 'fourthstring': [], 'fifthstring': [], 'sixthstring': [],}
-    let count = 0
+    let count, x, r, z
 
-    for (var x = 1; x <= 6; x++) {
+    for (x = 1; x <= 6; x++) {
       count = 0
-      for (var r = 0; r < getTunings(tuning)['tuningInfo'][x][1].length; r++) {
-        for (var z = 0; z < mixNotesAndColors[x].length; z++) {
+      for (r = 0; r < getTunings(tuning)['tuningInfo'][x][1].length; r++) {
+        for (z = 0; z < mixNotesAndColors[x].length; z++) {
           if (mixNotesAndColors[x][z][0] === getTunings(tuning)['tuningInfo'][x][1][r]) {
             newNoteColor[stringCorrespondencies()[x]].push(mixNotesAndColors[x][z][1])
             count += 1
@@ -173,11 +174,12 @@ class Mastboard extends Component {
     let mixNotesAndColors = this.fillArrayWithNotesActivesAndTheirColors(boardToEdit, tuneThatMustChange)
     let historyToWork = this.getTheHistoryWithTheId(id)
     let historyThatWontMutate = this.getTheHistoryWithDifferentId(id)
+    let  x
 
-    for (var histo = 0; histo < historyToWork.UndoStatesRepository.length; histo++) {
-      historyToWork.UndoStatesRepository[histo].tuning = getTunings(tuning)
-      let histoNotesAndColors = this.fillArrayWithNotesActivesAndTheirColors(historyToWork.UndoStatesRepository[histo], tuneThatMustChange)
-      historyToWork.UndoStatesRepository[histo].noteColor = this.getNewNoteColors(histoNotesAndColors, tuning)
+    for (x = 0; x < historyToWork.UndoStatesRepository.length; x++) {
+      historyToWork.UndoStatesRepository[x].tuning = getTunings(tuning)
+      let histoNotesAndColors = this.fillArrayWithNotesActivesAndTheirColors(historyToWork.UndoStatesRepository[x], tuneThatMustChange)
+      historyToWork.UndoStatesRepository[x].noteColor = this.getNewNoteColors(histoNotesAndColors, tuning)
     }
     let newHistoryState = [...historyThatWontMutate, historyToWork]
 
@@ -195,57 +197,37 @@ class Mastboard extends Component {
     let historyToWork = this.getTheHistoryWithTheId(id)
     let historyThatWontMutate = this.getTheHistoryWithDifferentId(id);
     
-    try{
-      boardToEdit = {id: id,
-                    settedNotes: historyToWork.RedoStatesRepository[historyToWork.RedoStatesRepository.length - 1].settedNotes,
-                    noteColor: {...historyToWork.RedoStatesRepository[historyToWork.RedoStatesRepository.length - 1].noteColor},
-                    tuning: {...historyToWork.RedoStatesRepository[historyToWork.RedoStatesRepository.length - 1].tuning}}
-      
-      historyToWork.UndoStatesRepository = [...historyToWork.UndoStatesRepository, {settedNotes: boardCopy.settedNotes, noteColor: {...boardCopy.noteColor}, tuning: {...boardCopy.tuning}}]
-      historyToWork.RedoStatesRepository = this.removeLastElementOfArray(historyToWork.RedoStatesRepository)
-      let newHistoryState = [...historyThatWontMutate, historyToWork]
+    boardToEdit = {id: id,
+                  settedNotes: historyToWork.RedoStatesRepository[historyToWork.RedoStatesRepository.length - 1].settedNotes,
+                  noteColor: {...historyToWork.RedoStatesRepository[historyToWork.RedoStatesRepository.length - 1].noteColor},
+                  tuning: {...historyToWork.RedoStatesRepository[historyToWork.RedoStatesRepository.length - 1].tuning}}
+    
+    historyToWork.UndoStatesRepository = [...historyToWork.UndoStatesRepository, {settedNotes: boardCopy.settedNotes, noteColor: {...boardCopy.noteColor}, tuning: {...boardCopy.tuning}}]
+    historyToWork.RedoStatesRepository = this.removeLastElementOfArray(historyToWork.RedoStatesRepository)
+    let newHistoryState = [...historyThatWontMutate, historyToWork]
 
-      let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo)
-      this.setState({...this.state, boardInfo: newBoardInfoState, history: newHistoryState})
-    }
-    catch (e) {
-      if (e.name !== 'TypeError') {
-        console.log(e.name, ': ', e.message)
-      }
-      else {
-        console.log('Oooops! I cannot find any Redo State.')
-      }
-    }
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo)
+    this.setState({...this.state, boardInfo: newBoardInfoState, history: newHistoryState})
   }
   // TODO: disable Undo button
   undo(id, position) {
     let boardToEdit, boardCopy = this.getTheBoardToEdit(id)
     let historyToWork = this.getTheHistoryWithTheId(id)
     let historyThatWontMutate = this.getTheHistoryWithDifferentId(id);    
+ 
+    boardToEdit = {id: id,
+                    settedNotes: historyToWork.UndoStatesRepository[historyToWork.UndoStatesRepository.length - 1].settedNotes,
+                    noteColor: {...historyToWork.UndoStatesRepository[historyToWork.UndoStatesRepository.length - 1].noteColor},
+                    tuning: {...historyToWork.UndoStatesRepository[historyToWork.UndoStatesRepository.length - 1].tuning}}
 
-    try {  
-      boardToEdit = {id: id,
-                     settedNotes: historyToWork.UndoStatesRepository[historyToWork.UndoStatesRepository.length - 1].settedNotes,
-                     noteColor: {...historyToWork.UndoStatesRepository[historyToWork.UndoStatesRepository.length - 1].noteColor},
-                     tuning: {...historyToWork.UndoStatesRepository[historyToWork.UndoStatesRepository.length - 1].tuning}}
+    historyToWork.RedoStatesRepository = [...historyToWork.RedoStatesRepository, {settedNotes: boardCopy.settedNotes, noteColor: {...boardCopy.noteColor}, tuning: {...boardCopy.tuning}}]
+    historyToWork.UndoStatesRepository = this.removeLastElementOfArray(historyToWork.UndoStatesRepository)
+    let newHistoryState = [...historyThatWontMutate, historyToWork]
 
-      historyToWork.RedoStatesRepository = [...historyToWork.RedoStatesRepository, {settedNotes: boardCopy.settedNotes, noteColor: {...boardCopy.noteColor}, tuning: {...boardCopy.tuning}}]
-      historyToWork.UndoStatesRepository = this.removeLastElementOfArray(historyToWork.UndoStatesRepository)
-      let newHistoryState = [...historyThatWontMutate, historyToWork]
-
-      console.log(historyToWork)
-      
-      let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
-      this.setState({...this.state, boardInfo: newBoardInfoState, history: newHistoryState})
-    }
-    catch (e) {
-      if (e.name !== 'TypeError') {
-        console.log(e.name, ': ', e.message)
-      }
-      else {
-        console.log('Oooops! I cannot find any Undo State.', e.name, e.message)
-      }
-    } 
+    console.log(historyToWork)
+    
+    let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
+    this.setState({...this.state, boardInfo: newBoardInfoState, history: newHistoryState})
   }
 
   moveColorsToLeft(id, position, string) {
@@ -265,40 +247,44 @@ class Mastboard extends Component {
     }
   }
 
-  setInversions(id, position) {
+  setInversions(id, position, tuning) {
     let boardToEdit = this.getTheBoardToEdit(id)
     let notesToInvert = this.getScaleNotes(position);
     let inversions = [];
     let countOfSettedNotes = countElementsOfAnArray(boardToEdit.settedNotes)
     let countOfNotesToInvert = countElementsOfAnArray(notesToInvert)
+    let i, z
 
     if (countOfSettedNotes < countOfNotesToInvert * 6) {
-      for (var i = 0; i < notesToInvert.split(' ').length; i++) {
+      for (i = 0; i < notesToInvert.split(' ').length; i++) {
         if (notesToInvert.split(' ')[i] !== '') {
-          for (var z = 1; z <= 6; z++) {
+          for (z = 1; z <= 6; z++) {
             inversions.push(notesToInvert.split(' ')[i].toString() + z.toString()) 
           }
         }
       }
 
       let notesThatWillBeSetted = inversions
+      let h
 
-      for (var h = 0; h < this.state.boardInfo[position].settedNotes.split(' ').length; h++) {
+      for (h = 0; h < this.state.boardInfo[position].settedNotes.split(' ').length; h++) {
         inversions = this.removeElementFromArray(this.state.boardInfo[position].settedNotes.split(' ')[h], inversions)
       }
 
       let stringsCorrespondencies = stringCorrespondencies()
       let newHistoryState = this.configHistory(id, boardToEdit)
       let noteColorArrayOfNote
+      let p
 
-      for (var p = 0; p < inversions.length; p++) {
+      for (p = 0; p < inversions.length; p++) {
         noteColorArrayOfNote = this.state.boardInfo[position].noteColor[stringsCorrespondencies[inversions[p].slice(-1)]]
-        boardToEdit.noteColor[stringsCorrespondencies[inversions[p].slice(-1)]] = this.setAColorByNote(inversions[p], '#bebebe', sortedNotesByString()[inversions[p].slice(-1)], noteColorArrayOfNote)
+        boardToEdit.noteColor[stringsCorrespondencies[inversions[p].slice(-1)]] = this.setAColorByNote(inversions[p], getTunings(tuning['nameOfTheTuning'])['tuningInfo'][inversions[p].slice(-1)][1], noteColorArrayOfNote)
       }
 
       let newSettedNotes = ' '
-
-      for (var w = 0; w < notesThatWillBeSetted.length; w++) {
+      let w
+      
+      for (w = 0; w < notesThatWillBeSetted.length; w++) {
         newSettedNotes = newSettedNotes + ' ' + notesThatWillBeSetted[w]
       }
 
@@ -312,7 +298,7 @@ class Mastboard extends Component {
 
   removeLastElementOfArray(arr) {
     let newArr = []
-    let x = 0
+    let x
     for (x = 0; x < arr.length - 1; x++) {
       newArr.push(arr[x])
     }
@@ -322,12 +308,12 @@ class Mastboard extends Component {
   unsetAllNotes(id, position) {
     let boardToEdit = this.getTheBoardToEdit(id)
     let stringsCorrespondencies = stringCorrespondencies()
-    
+    let x
     if (boardToEdit.settedNotes.length > 1) {
       let newHistoryState = this.configHistory(id, boardToEdit)
 
       boardToEdit.settedNotes = ''
-      for (var x = 1; x <= 6; x++) {
+      for (x = 1; x <= 6; x++) {
         boardToEdit.noteColor[stringsCorrespondencies[x]] = ['', '', '', '', '', '', '', '', '', '', '', '', ]
       }
 
@@ -348,7 +334,7 @@ class Mastboard extends Component {
       let noteColorArrayOfNote = this.state.boardInfo[position].noteColor[stringsCorrespondencies[note.slice(-1)]]
       let newHistoryState = this.configHistory(id, boardToEdit)
       boardToEdit.settedNotes = (boardToEdit.settedNotes + ' ' + note + ' ').replace('  ', ' ');
-      boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.setAColorByNote(note, '#bebebe', getTunings(tuning['nameOfTheTuning'])['tuningInfo'][note.slice(-1)][1], noteColorArrayOfNote)
+      boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.setAColorByNote(note, getTunings(tuning['nameOfTheTuning'])['tuningInfo'][note.slice(-1)][1], noteColorArrayOfNote)
 
       let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
       
@@ -358,17 +344,18 @@ class Mastboard extends Component {
     }
   }
 
-  setAColorByNote(note, color, sortedNotes, arrayQueYaTengo) {
+  setAColorByNote(note, sortedNotes, oldArray) {
     console.log(sortedNotes)
     let coloredArray = []
     let cleanNote = cleanTheNote(note)
+    let x
 
-    for (var x = 0; x < sortedNotes.length; x++) {
+    for (x = 0; x < sortedNotes.length; x++) {
       if (sortedNotes[x] === cleanNote) {
-        coloredArray.push(color);
+        coloredArray.push('#bebebe');
       }
       else {
-        coloredArray.push(arrayQueYaTengo[x]);
+        coloredArray.push(oldArray[x]);
       }
     }
     return coloredArray
@@ -408,9 +395,9 @@ class Mastboard extends Component {
   }
 
   testStringColorBeforeMove(colors) {
-    let notesWithColor = 0, w = 0
     let colorsToBeTested = []
     let wayIn = false
+    let notesWithColor = 0, w
 
     for (w = 0; w < colors.length; w++) {
       if (colors[w] !== '') {
@@ -419,9 +406,10 @@ class Mastboard extends Component {
       }
     }
 
+    let r, k
     if (notesWithColor > 1) {
-      for (var r = 0; r < colorsToBeTested.length; r++) {
-        for (var k = 0; k < colorsToBeTested.length; k++) {
+      for (r = 0; r < colorsToBeTested.length; r++) {
+        for (k = 0; k < colorsToBeTested.length; k++) {
           if (colorsToBeTested[r] !== colorsToBeTested[k]) {
             wayIn = true
             return wayIn
@@ -455,19 +443,21 @@ class Mastboard extends Component {
     let stringsCorrespondencies = stringCorrespondencies();
     let returnTrueIfPaintIsNedded = false
     let notesActiveByString
+    let p, xx
 
-    for (var p = 1; p <= 6; p++) {
+    for (p = 1; p <= 6; p++) {
       notesActiveByString = this.getSortedNotes(boardToEdit.settedNotes, p);
-      for (var xx = 0; xx < boardToEdit.noteColor[stringsCorrespondencies[p]].length; xx++) {
+      for (xx = 0; xx < boardToEdit.noteColor[stringsCorrespondencies[p]].length; xx++) {
         if (this.setColorsInArrayByNote(notesActiveByString, tuning['tuningInfo'][p][1])[xx] !== boardToEdit.noteColor[stringsCorrespondencies[p]][xx]) {
           returnTrueIfPaintIsNedded = true
         }
       }
     }
-    console.log(this.getSortedNotes(boardToEdit.settedNotes, 1))
+
+    let x
     if (returnTrueIfPaintIsNedded) {
       let newHistoryState = this.configHistory(id, boardToEdit)
-      for (var x = 1; x <= 6; x++) {
+      for (x = 1; x <= 6; x++) {
         notesActiveByString = this.getSortedNotes(boardToEdit.settedNotes, x);
         
         boardToEdit.noteColor[stringsCorrespondencies[x]] = this.setColorsInArrayByNote(notesActiveByString, tuning['tuningInfo'][x][1])
@@ -482,9 +472,10 @@ class Mastboard extends Component {
   setColorsInArrayByNote(activeNotes, sortedNotesInString) {
     let count = 0
     let coloredArray = []
+    let x, y
     
-    for (var x = 0; x < sortedNotesInString.length; x++) {
-      for (var y = 0; y < activeNotes.split(' ').length; y++) {
+    for (x = 0; x < sortedNotesInString.length; x++) {
+      for (y = 0; y < activeNotes.split(' ').length; y++) {
         if (sortedNotesInString[x] === activeNotes.split(' ')[y]) {
           coloredArray.push(colorByNote()[activeNotes.split(' ')[y]]);
           count += 1;
@@ -499,11 +490,12 @@ class Mastboard extends Component {
   }
 
   unsetColorInArray(note, sortedNotes, inputArray) {
-    let arrayOfResults = [];
-    let count = 0;
-    let cleanNote = cleanTheNote(note);
+    let arrayOfResults = []
+    let count = 0
+    let cleanNote = cleanTheNote(note)
+    let x
 
-    for (var x = 0; x < sortedNotes.split(' ').length; x++) {
+    for (x = 0; x < sortedNotes.split(' ').length; x++) {
       if (sortedNotes.split(' ')[x] === cleanNote) {
         arrayOfResults.push('');
         count += 1;
@@ -527,10 +519,11 @@ class Mastboard extends Component {
   }
 
   sortThisNotes(sortedNotes, unsortedNotes) {
-    let resultOfSortNotes = '';
+    let resultOfSortNotes = ''
+    let x, y
 
-    for (var x = 0; x < sortedNotes.split(' ').length; x++) {
-      for (var y = 0; y < unsortedNotes.split(' ').length; y++) {
+    for (x = 0; x < sortedNotes.split(' ').length; x++) {
+      for (y = 0; y < unsortedNotes.split(' ').length; y++) {
         if (sortedNotes.split(' ')[x] === unsortedNotes.split(' ')[y]) {
           resultOfSortNotes += unsortedNotes.split(' ')[y] + ' ';
         }
@@ -540,8 +533,9 @@ class Mastboard extends Component {
   }
 
   getScaleNotesOnString(notes, string) {
-    let notesOnString = '';
-    for (var j = 0; j < notes.split(' ').length; j++) {
+    let notesOnString = ''
+    let j
+    for (j = 0; j < notes.split(' ').length; j++) {
       if (notes.split(' ')[j].includes(string)) {
         if (notes.split(' ')[j].includes('#')) {
           notesOnString += notes.split(' ')[j].charAt(0) +
@@ -570,8 +564,8 @@ class Mastboard extends Component {
   }
 
   getNewStateWithSamePosition(position, mutatingState, entireState) {
-    let x = 0;
-    let newState = [];
+    let newState = []
+    let x = 0
     
     while (x < entireState.length){
       if (x === position) {
@@ -603,13 +597,14 @@ class Mastboard extends Component {
   setAllNotes(id, position) {
     let boardToEdit = this.getTheBoardToEdit(id)
     let takeCount = countElementsOfAnArray(boardToEdit.settedNotes)
+    let x
 
     if (takeCount < 72) {
       let newHistoryState = this.configHistory(id, boardToEdit)
 
       boardToEdit.settedNotes = allNotes()
 
-      for (var x = 1; x <= 6; x++) {
+      for (x = 1; x <= 6; x++) {
         boardToEdit.noteColor[stringCorrespondencies()[x]] = notesColors()['0']
       }
 
@@ -623,7 +618,8 @@ class Mastboard extends Component {
 
   getScaleNotes(position) {
     let scaleNotes = ''
-    for (var j = 0; j < this.state.boardInfo[position].settedNotes.split(' ').length; j++) {
+    let j
+    for (j = 0; j < this.state.boardInfo[position].settedNotes.split(' ').length; j++) {
 
       if (this.state.boardInfo[position].settedNotes.split(' ')[j] !== '') {
 
@@ -649,7 +645,8 @@ class Mastboard extends Component {
 
   removeElementFromArray(elem, arr) {
     let newArray = []
-    for (var x = 0; x < arr.length; x++) {
+    let x
+    for (x = 0; x < arr.length; x++) {
       if (elem !== arr[x]) {
         newArray.push(arr[x])
       }
@@ -659,10 +656,10 @@ class Mastboard extends Component {
 
   removeStringNotes(id, position, string) {
     let boardToEdit = this.getTheBoardToEdit(id)
-
+    let x
     if (boardToEdit.settedNotes.includes(string)) {
       let notesThatWontBeRemoved = ''
-      for (var x = 0; x < boardToEdit.settedNotes.split(' ').length; x++){
+      for (x = 0; x < boardToEdit.settedNotes.split(' ').length; x++){
         if (boardToEdit.settedNotes.split(' ')[x] !== '') {
           if (boardToEdit.settedNotes.split(' ')[x].includes(string.toString()) !== true) {
             notesThatWontBeRemoved += boardToEdit.settedNotes.split(' ')[x] + ' ';
@@ -697,9 +694,10 @@ class Mastboard extends Component {
       }
 
       let notesToRemove = ''
+      let i, z
 
-      for (var i = valueFrom; i <= valueTo; i++) {
-        for (var z = 0; z <= 5; z++) {
+      for (i = valueFrom; i <= valueTo; i++) {
+        for (z = 0; z <= 5; z++) {
           if (z === 5) {
             notesToRemove += notesByFret()[i][z];
           }
@@ -712,8 +710,8 @@ class Mastboard extends Component {
 
       let boardToEdit = this.getTheBoardToEdit(id)
       let notesThatWontBeRemoved = '';
-
-      for (var x = 0; x < boardToEdit.settedNotes.split(' ').length; x++) {
+      let x
+      for (x = 0; x < boardToEdit.settedNotes.split(' ').length; x++) {
         if (notesToRemove.includes(boardToEdit.settedNotes.split(' ')[x]) !== true) {
           notesThatWontBeRemoved += boardToEdit.settedNotes.split(' ')[x] + ' ';
         }
@@ -721,12 +719,12 @@ class Mastboard extends Component {
       
       let notesThatWontBeRemovedLength = countElementsOfAnArray(notesThatWontBeRemoved)
       let boardNotesLength = countElementsOfAnArray(boardToEdit.settedNotes)
-
+      let v
       if (notesThatWontBeRemovedLength < boardNotesLength) {
         let newHistoryState = this.configHistory(id, boardToEdit)
         let stringsCorrespondencies = stringCorrespondencies()
 
-        for(var v = 0; v < notesToRemove.split(' ').length; v++) {
+        for(v = 0; v < notesToRemove.split(' ').length; v++) {
           if(notesToRemove.split(' ')[v] !== '') {
             boardToEdit.noteColor[stringsCorrespondencies[notesToRemove.split(' ')[v].slice(-1)]] = this.unsetColorInArray(notesToRemove.split(' ')[v], sortedNotesByString()[notesToRemove.split(' ')[v].slice(-1)], boardToEdit.noteColor[stringsCorrespondencies[notesToRemove.split(' ')[v].slice(-1)]]);
           }
