@@ -95,10 +95,11 @@ class Mastboard extends Component {
   }
 
   renderBoard(info, boardPosition) {
+    console.log(info.tuning)
     return (
       <Board key={boardPosition}
               settedNotes={this.state.boardInfo[boardPosition].settedNotes}
-              setNote={this.setNote.bind(this, info.id, boardPosition)}
+              setNote={this.setNote.bind(this, info.id, boardPosition, info.tuning)}
               unsetNote={this.unsetNote.bind(this, info.id, boardPosition)}
               setAllNotes={() => this.setAllNotes(info.id, boardPosition)}
               setInversions={() => this.setInversions(info.id, boardPosition)}
@@ -113,7 +114,7 @@ class Mastboard extends Component {
               redo={() => this.redo(info.id, boardPosition)}
               undo={() => this.undo(info.id, boardPosition)} 
               changeTuning={this.changeTuning.bind(this, info.id, boardPosition)}
-              tuning={this.state.boardInfo[boardPosition].tuning}
+              tuning={info.tuning}
               history={this.state.history[boardPosition]}
               />
     )
@@ -338,7 +339,7 @@ class Mastboard extends Component {
     }
   }
 
-  setNote(id, position, note) {
+  setNote(id, position, tuning, note) {
     let boardToEdit = this.getTheBoardToEdit(id)
     
     let stringsCorrespondencies = stringCorrespondencies();
@@ -347,7 +348,7 @@ class Mastboard extends Component {
       let noteColorArrayOfNote = this.state.boardInfo[position].noteColor[stringsCorrespondencies[note.slice(-1)]]
       let newHistoryState = this.configHistory(id, boardToEdit)
       boardToEdit.settedNotes = (boardToEdit.settedNotes + ' ' + note + ' ').replace('  ', ' ');
-      boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.setAColorByNote(note, '#bebebe', sortedNotesByString()[note.slice(-1)], noteColorArrayOfNote)
+      boardToEdit.noteColor[stringsCorrespondencies[note.slice(-1)]] = this.setAColorByNote(note, '#bebebe', getTunings(tuning['nameOfTheTuning'])['tuningInfo'][note.slice(-1)][1], noteColorArrayOfNote)
 
       let newBoardInfoState = this.getNewStateWithSamePosition(position, boardToEdit, this.state.boardInfo);
       
@@ -355,6 +356,22 @@ class Mastboard extends Component {
 
       console.log('This board have been edit: ', boardToEdit)
     }
+  }
+
+  setAColorByNote(note, color, sortedNotes, arrayQueYaTengo) {
+    console.log(sortedNotes)
+    let coloredArray = []
+    let cleanNote = cleanTheNote(note)
+
+    for (var x = 0; x < sortedNotes.length; x++) {
+      if (sortedNotes[x] === cleanNote) {
+        coloredArray.push(color);
+      }
+      else {
+        coloredArray.push(arrayQueYaTengo[x]);
+      }
+    }
+    return coloredArray
   }
 
   getTheBoardToEdit(id) {
@@ -550,21 +567,6 @@ class Mastboard extends Component {
       )
     });
     console.log('This board with the ' + id + ' have been removed.');
-  }
-
-  setAColorByNote(note, color, sortedNotes, arrayQueYaTengo) {
-    let coloredArray = []
-    let cleanNote = cleanTheNote(note)
-
-    for (var x = 0; x < sortedNotes.split(' ').length; x++) {
-      if (sortedNotes.split(' ')[x] === cleanNote) {
-        coloredArray.push(color);
-      }
-      else {
-        coloredArray.push(arrayQueYaTengo[x]);
-      }
-    }
-    return coloredArray
   }
 
   getNewStateWithSamePosition(position, mutatingState, entireState) {
